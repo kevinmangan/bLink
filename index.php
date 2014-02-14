@@ -14,6 +14,7 @@
 
     <!-- Custom styles for this template -->
     <link href="cover.css" rel="stylesheet">
+    <link href="scrollEffect.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
