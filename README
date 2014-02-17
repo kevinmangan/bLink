@@ -1,0 +1,3 @@
+Make sure run.py is an executable by typing: chmod a+x run.py
+
+Then just do ./run.py
