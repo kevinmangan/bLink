@@ -10,6 +10,6 @@ class LoginForm(Form):
 
 class SignupForm(Form):
     username = TextField('username', validators = [Required()])
-    password = TextField('password', validators = [Required()])
+    password = PasswordField('password', validators = [Required()])
     email = TextField('email', validators = [Required()])
     remember_me = BooleanField('remember_me', default = False)

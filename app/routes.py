@@ -18,51 +18,76 @@ def before_request():
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template("index.html", title = 'Home')
+	form1 = LoginForm()
+	form2 = SignupForm()
+	return render_template("index.html", title = 'Log in', form1=form1, form2=form2)
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/login", methods=["POST"])
 def login():
 	if g.user is not None and g.user.is_authenticated():
-		return redirect(url_for('login'))
-	form = LoginForm()
-	if form.validate_on_submit():
-		email = form.email.data
-		if email is None:
+		return redirect(url_for('index'))
+	form1 = LoginForm()
+	form2 = SignupForm()
+	if form1.validate_on_submit():
+		email = form1.email.data
+		username = form1.username.data
+		password = form1.password.data
+		if email is None or username is None or password is None:
 			flash('Invalid login. Please try again.')
-			return redirect(url_for('login'))
+			return redirect(url_for('index'))
 		user = User.query.filter_by(email = email).first()
 		if user is None:
-			flash('Invalid login. Please try again.')
-			return redirect(url_for('login'))
+			flash('That email does not exist. Please try again.')
+			return redirect(url_for('index'))
+		user = User.query.filter_by(username = username).first()
+		if user is None:
+			flash('That username does not exist. Please try again.')
+			return redirect(url_for('index'))
+		if user.password is not password:
+			flash('Invalid password. Please try again.')
+			return redirect(url_for('index'))
 		login_user(user, remember=True)
 		flash("Logged in successfully.")
 		return redirect(request.args.get("next") or url_for("user", username=user.username))
-	return render_template("login.html", title = 'Sign In', form=form)
+	return render_template("index.html", title = 'Sign In', form1=form, form2=form2)
 
-@app.route("/signup", methods=["GET", "POST"])
+@app.route("/signup", methods=["POST"])
 def signup():
 	if g.user is not None and g.user.is_authenticated():
 		return redirect(url_for('index'))
-	form = SignupForm()
-	if form.validate_on_submit():	
-		username = form.username.data
+	form1 = LoginForm
+	form2 = SignupForm()
+	if form2.validate_on_submit():	
+		username = form2.username.data
 		if username not in reserved_usernames.split():
-			password = form.password.data
-			email = form.email.data
+			password = form2.password.data
+			email = form2.email.data
+			
+			user = User.query.filter_by(email = email).first() # Check if that email already exists
+			if user is not None:
+				flash('That email is already in use')
+				return redirect(url_for('index'))
+			
+			user = User.query.filter_by(username = username).first() # Check if that username already exists
+			if user is not None:
+				flash('That username is already in use')
+				return redirect(url_for('index'))
+			
+			# Create the user
 			user = User(username=username, password=password, email=email)
 			db.session.add(user)
     		db.session.commit()
 		login_user(user, remember=True)
 		flash("Logged in successfully.")
 		return redirect(request.args.get("next") or url_for("user", username=user.username))
-	return render_template("signup.html", title = 'Sign Up', form=form)
+	return render_template("index.html", title = 'Sign Up', form1=form, form2=form2)
 
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
     form = LoginForm()
-    return redirect("login")
+    return redirect("/")
 
 
 @app.route("/user/<username>")

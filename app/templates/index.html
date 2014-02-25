@@ -1,4 +1,60 @@
+<!-- extend from base layout -->
 {% extends "base.html" %}
+
 {% block content %}
-      <h1>Hello!</h1>
+<h1>Log In</h1>
+<form action="login" method="post" name="login">
+    {{form1.hidden_tag()}}
+    <p>
+        Please enter your username:<br>
+        {{form1.username(size=80)}}<br>
+        {% for error in form1.errors.username %}
+        <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+    </p>
+    <p>
+        Please enter your password:<br>
+        {{form1.password(size=80)}}<br>
+        {% for error in form1.errors.password %}
+        <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+    </p>
+    <p>
+        Please enter your email:<br>
+        {{form1.email(size=80)}}<br>
+        {% for error in form1.errors.email %}
+        <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+    </p>
+    <p>{{form1.remember_me}} Remember Me</p>
+    <p><input type="submit" value="Log In"></p>
+</form>
+<br><br>
+<h1>Sign Up</h1>
+<form action="signup" method="post" name="signup">
+    {{form2.hidden_tag()}}
+    <p>
+        Please enter your username:<br>
+        {{form2.username(size=80)}}<br>
+        {% for error in form2.errors.username %}
+        <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+    </p>
+    <p>
+        Please enter your password:<br>
+        {{form2.password(size=80)}}<br>
+        {% for error in form2.errors.password %}
+        <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+    </p>
+    <p>
+        Please enter your email:<br>
+        {{form2.email(size=80)}}<br>
+        {% for error in form2.errors.email %}
+        <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+    </p>
+    <p>{{form2.remember_me}} Remember Me</p>
+    <p><input type="submit" value="Log In"></p>
+</form>
 {% endblock %}
