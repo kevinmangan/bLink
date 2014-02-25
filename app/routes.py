@@ -43,8 +43,9 @@ def login():
 		if user is None:
 			flash('That username does not exist. Please try again.')
 			return redirect(url_for('index'))
-		if user.password is not password:
+		if user.password != password:
 			flash('Invalid password. Please try again.')
+			flash(user.password)
 			return redirect(url_for('index'))
 		login_user(user, remember=True)
 		flash("Logged in successfully.")
