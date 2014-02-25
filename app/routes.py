@@ -1,4 +1,4 @@
-from app import app, db, lm
+from app import app, db, lm, bcrypt
 from flask import render_template
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
@@ -43,9 +43,8 @@ def login():
 		if user is None:
 			flash('That username does not exist. Please try again.')
 			return redirect(url_for('index'))
-		if user.password != password:
-			flash('Invalid password. Please try again.')
-			flash(user.password)
+		if bcrypt.check_password_hash(user.password, password) is False:
+			flash('Invalid Login. Please try again.')
 			return redirect(url_for('index'))
 		login_user(user, remember=True)
 		flash("Logged in successfully.")
@@ -62,6 +61,7 @@ def signup():
 		username = form2.username.data
 		if username not in reserved_usernames.split():
 			password = form2.password.data
+			password_hash = bcrypt.generate_password_hash(password)
 			email = form2.email.data
 			
 			user = User.query.filter_by(email = email).first() # Check if that email already exists
@@ -75,7 +75,7 @@ def signup():
 				return redirect(url_for('index'))
 			
 			# Create the user
-			user = User(username=username, password=password, email=email)
+			user = User(username=username, password=password_hash, email=email)
 			db.session.add(user)
     		db.session.commit()
 		login_user(user, remember=True)
