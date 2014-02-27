@@ -30,7 +30,7 @@
     <p><input type="submit" value="Log In"></p>
 </form>
 <br><br>
-<h1>Sign Up</h1>
+<h1>MBA Student Sign Up</h1>
 <form action="signup" method="post" name="signup">
     {{form2.hidden_tag()}}
     <p>
@@ -48,9 +48,44 @@
         {% endfor %}<br>
     </p>
     <p>
+        Please enter your First Name:<br>
+        {{form2.firstName(size=80)}}<br>
+        {% for error in form2.errors.firstName %}
+        <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+    </p>
+    <p>
+        Please enter your Last Name:<br>
+        {{form2.lastName(size=80)}}<br>
+        {% for error in form2.errors.lastName %}
+        <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+    </p>
+    <p>
         Please enter your email:<br>
         {{form2.email(size=80)}}<br>
         {% for error in form2.errors.email %}
+        <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+    </p>
+    <p>
+        Please enter your Location:<br>
+        {{form2.location(size=80)}}<br>
+        {% for error in form2.errors.location %}
+        <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+    </p>
+    <p>
+        Please enter your school:<br>
+        {{form2.school(size=80)}}<br>
+        {% for error in form2.errors.school %}
+        <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+    </p>
+    <p>
+        Please enter your MBA Class Year:<br>
+        {{form2.class_year(size=80)}}<br>
+        {% for error in form2.errors.class_year %}
         <span style="color: red;">[{{error}}]</span>
         {% endfor %}<br>
     </p>
