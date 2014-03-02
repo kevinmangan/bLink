@@ -2,7 +2,7 @@ from app import app, db, lm, bcrypt
 from flask import render_template
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
-from forms import LoginForm, SignupForm
+from forms import LoginForm, SignupForm, EditProfileForm
 from models import User, Student, Recruiter, Opportunity
 
 reserved_usernames = 'home signup login logout post'
@@ -18,20 +18,20 @@ def before_request():
 @app.route('/')
 @app.route('/index')
 def index():
-	form1 = LoginForm()
-	form2 = SignupForm()
-	return render_template("index.html", title = 'Log in', form1=form1, form2=form2)
+	loginForm = LoginForm()
+	signupForm = SignupForm()
+	return render_template("index.html", title = 'Log in', form1=loginForm, form2=signupForm)
 
 @app.route("/login", methods=["POST"])
 def login():
 	if g.user is not None and g.user.is_authenticated():
 		return redirect(url_for('index'))
-	form1 = LoginForm()
-	form2 = SignupForm()
-	if form1.validate_on_submit():
-		email = form1.email.data
-		username = form1.username.data
-		password = form1.password.data
+	loginForm = LoginForm()
+	signupForm = SignupForm()
+	if loginForm.validate_on_submit():
+		email = loginForm.email.data
+		username = loginForm.username.data
+		password = loginForm.password.data
 		if email is None or username is None or password is None:
 			flash('Invalid login. Please try again.')
 			return redirect(url_for('index'))
@@ -48,25 +48,25 @@ def login():
 			return redirect(url_for('index'))
 		login_user(user, remember=True)
 		return redirect(request.args.get("next") or url_for("user", username=user.username))
-	return render_template("index.html", title = 'Sign In', form1=form, form2=form2)
+	return render_template("index.html", title = 'Sign In', form1=loginForm, form2=signupForm)
 
 @app.route("/signup", methods=["POST"])
 def signup():
 	if g.user is not None and g.user.is_authenticated():
 		return redirect(url_for('index'))
-	form1 = LoginForm
-	form2 = SignupForm()
-	if form2.validate_on_submit():	
-		username = form2.username.data
+	loginForm = LoginForm
+	signupForm = SignupForm()
+	if signupForm.validate_on_submit():
+		username = signupForm.username.data
 		if username not in reserved_usernames.split():
-			password = form2.password.data
+			password = signupForm.password.data
 			password_hash = bcrypt.generate_password_hash(password)
-			email = form2.email.data
-			firstName = form2.firstName.data
-			lastName = form2.lastName.data
-			school = form2.school.data
-			location = form2.location.data
-			class_year = form2.class_year.data
+			email = signupForm.email.data
+			firstName = signupForm.firstName.data
+			lastName = signupForm.lastName.data
+			school = signupForm.school.data
+			location = signupForm.location.data
+			class_year = signupForm.class_year.data
 			
 			user = User.query.filter_by(email = email).first() # Check if that email already exists
 			if user is not None:
@@ -84,8 +84,8 @@ def signup():
 			db.session.add(student)
 			db.session.commit()
 		login_user(student, remember=True)
-		return redirect(request.args.get("next") or url_for("user", username=student.username))
-	return render_template("index.html", title = 'Sign Up', form1=form1, form2=form2)
+		return redirect(request.args.get("next") or url_for("editProfile", username=student.username))
+	return render_template("index.html", title = 'Sign Up', form1=loginForm, form2=signupForm)
 
 @app.route("/logout")
 @login_required
@@ -109,3 +109,14 @@ def user(username):
 	return render_template('user.html',
 		user = user,
 		opportunities = opportunities)
+
+@app.route("/edit/<username>", methods=["POST", "GET"])
+@login_required
+def editProfile(username):
+	user = Student.query.filter_by(username = username).first()
+	if user == None:
+		flash('User ' + username + ' not found.')
+		return redirect(url_for('index'))
+	editProfileForm = EditProfileForm()
+	return render_template("edit.html", title = 'Sign Up', user=user, editProfileForm=editProfileForm)
+

@@ -18,3 +18,13 @@ class SignupForm(Form):
     school = TextField('school', validators = [Required()])
     class_year = TextField('class_year', validators = [Required()])
     remember_me = BooleanField('remember_me', default = False)
+
+class EditProfileForm(Form):
+    picture = FileField('picture')
+    password = PasswordField('password', id="form-field-pass1")
+    confirmPassword = PasswordField('confirmPassword', id="form-field-pass2")
+    firstName = TextField('firstName', id="form-field-first")
+    lastName = TextField('lastName', id="form-field-last")
+    location = TextField('location')
+    email = TextField('email', id="form-field-email")
+    phone = TextField('phone', id="form-field-phone")
