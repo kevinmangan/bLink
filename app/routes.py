@@ -117,6 +117,26 @@ def editProfile(username):
 	if user == None:
 		flash('User ' + username + ' not found.')
 		return redirect(url_for('index'))
-	editProfileForm = EditProfileForm()
-	return render_template("edit.html", title = 'Sign Up', user=user, editProfileForm=editProfileForm)
+	form = EditProfileForm()
+	if request.method == 'POST':
+		if form.firstName.data:
+			user.firstName = form.firstName.data
+		if form.lastName.data:
+			user.lastName = form.lastName.data
+		if form.location.data:
+			user.location = form.location.data
+		if form.phone.data:
+			user.phone = form.phone.data
+		if form.password.data:
+			if form.confirmPassword.data is None:
+				flash('Please confirm your password.')
+				return redirect(url_for("editProfile", username=user.username))
+			if form.password.data != form.confirmPassword.data:
+				flash('Confirmation does not match.')
+				return redirect(url_for("editProfile", username=user.username))
+			password_hash = bcrypt.generate_password_hash(form.password.data)
+			user.password = password_hash
+		db.session.commit()
+		return redirect(url_for('user', username=user.username))
+	return render_template("edit.html", title = 'Sign Up', user=user, editProfileForm=form)
 
