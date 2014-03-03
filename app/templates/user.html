@@ -9,4 +9,23 @@
   {{op.author.username}} says: <b>{{op.body}}</b>
 </p>
 {% endfor %}
+<h1>Post Opportunity</h1>
+<form action="post_opportunity" method="post" name="post_opportunity">
+    {{form1.hidden_tag()}}
+    <p>
+        Subject:<br>
+        {{form1.subject(size=100)}}<br>
+        {% for error in form1.errors.subject %}
+        <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+    </p>
+    <p>
+        Description:<br>
+        {{form1.description(size=100)}}<br>
+        {% for error in form1.errors.description %}
+        <span style="color: red;">[{{error}}]</span>
+        {% endfor %}<br>
+    </p>
+    <p><input type="submit" value="Post"></p>
+</form>
 {% endblock %}

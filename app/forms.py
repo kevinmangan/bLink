@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import TextField, BooleanField, PasswordField
+from wtforms import TextField, TextAreaField, BooleanField, PasswordField
 from wtforms.validators import Required
 
 class LoginForm(Form):
@@ -13,3 +13,7 @@ class SignupForm(Form):
     password = PasswordField('password', validators = [Required()])
     email = TextField('email', validators = [Required()])
     remember_me = BooleanField('remember_me', default = False)
+
+class PostOpportunityForm(Form):
+    subject = TextField('username', validators = [Required()])
+    description = TextAreaField('description', default='Please descrive the opportunity you are posting')

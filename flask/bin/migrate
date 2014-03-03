@@ -1,4 +1,4 @@
-#!/Users/kevinmangan/Websites/bLink/flask/bin/python
+#!/Users/talhajansari/development/bLink/flask/bin/python
 # EASY-INSTALL-ENTRY-SCRIPT: 'sqlalchemy-migrate==0.7.2','console_scripts','migrate'
 __requires__ = 'sqlalchemy-migrate==0.7.2'
 import sys

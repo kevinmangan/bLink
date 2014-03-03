@@ -2,18 +2,19 @@ from app import app, db, lm, bcrypt
 from flask import render_template
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
-from forms import LoginForm, SignupForm
-from models import User
+from forms import LoginForm, SignupForm, PostOpportunityForm
+from models import User, Opportunity
+from datetime import datetime
 
 reserved_usernames = 'home signup login logout post'
 
 @lm.user_loader
 def load_user(id):
-    return User.query.get(int(id))
+	return User.query.get(int(id))
 
 @app.before_request   # If a view uses this decorator, it will run before the request is handled
 def before_request():
-    g.user = current_user
+	g.user = current_user
 
 @app.route('/')
 @app.route('/index')
@@ -30,7 +31,7 @@ def login():
 	form2 = SignupForm()
 	if form1.validate_on_submit():
 		email = form1.email.data
-		username = form1.username.data
+		username = form1.username.data # Commenting so users can use email as username
 		password = form1.password.data
 		if email is None or username is None or password is None:
 			flash('Invalid login. Please try again.')
@@ -77,7 +78,8 @@ def signup():
 			# Create the user
 			user = User(username=username, password=password_hash, email=email)
 			db.session.add(user)
-    		db.session.commit()
+			db.session.commit()
+		# Also write code for email-ver
 		login_user(user, remember=True)
 		flash("Logged in successfully.")
 		return redirect(request.args.get("next") or url_for("user", username=user.username))
@@ -86,22 +88,38 @@ def signup():
 @app.route("/logout")
 @login_required
 def logout():
-    logout_user()
-    form = LoginForm()
-    return redirect("/")
+	logout_user()
+	form = LoginForm()
+	return redirect("/")
 
 
 @app.route("/user/<username>")
 @login_required   # login required wrapper to make sure the user is logged in
 def user(username):
-    user = User.query.filter_by(username = username).first()
-    if user == None:
-        flash('User ' + username + ' not found.')
-        return redirect(url_for('index'))
-    opportunities = [
-        { 'author': user, 'subject': 'Test post #1', 'body': 'Test post #1' },
-        { 'author': user, 'subject': 'Test post #1', 'body': 'Test post #2' }
-    ]
-    return render_template('user.html',
-        user = user,
-        opportunities = opportunities)
+	user = User.query.filter_by(username = username).first()
+	if user == None:
+		flash('User ' + username + ' not found.')
+		return redirect(url_for('index'))
+	opportunities = [
+		{ 'author': user, 'subject': 'Test post #1', 'body': 'Test post #1' },
+		{ 'author': user, 'subject': 'Test post #1', 'body': 'Test post #2' }
+	]
+	form1 = PostOpportunityForm()
+	return render_template('user.html',
+		user = user,
+		opportunities = opportunities, form1=form1)
+
+# Opportunties Section
+@app.route("/user/post_opportunity", methods=["POST"])
+def post_opportunity():
+	if g.user is None or not g.user.is_authenticated():
+		return redirect(url_for('index'))
+	form1 = PostOpportunityForm()
+	if form1.validate_on_submit():
+		subject = form1.subject.data
+		description = form1.description.data
+		# Create the opportunity
+		opportunity = Opportunity(subject=subject, description=description, timestamp=datetime.utcnow(), user_id=g.user.get_id())
+		db.session.add(opportunity)
+		db.session.commit()
+		return 'Opportunity Posted'

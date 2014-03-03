@@ -1,4 +1,5 @@
 from app import db
+from datetime import datetime
 
 ROLE_USER = 0
 ROLE_ADMIN = 1
@@ -28,9 +29,12 @@ class User(db.Model):
 class Opportunity(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     subject = db.Column(db.String(40))
-    body = db.Column(db.String(140))
+    description = db.Column(db.String(140))
     timestamp = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def get_id(self):
+        return unicode(self.id)
 
     def __repr__(self):
         return '<Opportunity %r>' % (self.body)
