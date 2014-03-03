@@ -11,7 +11,7 @@ reserved_usernames = 'home signup login logout post'
 def load_user(id):
 	return User.query.get(int(id))
 
-@app.before_request   # If a view uses this decorator, it will run before the request is handled
+@app.before_request   
 def before_request():
 	g.user = current_user
 
@@ -127,6 +127,8 @@ def editProfile(username):
 			user.location = form.location.data
 		if form.phone.data:
 			user.phone = form.phone.data
+		if form.about.data:
+			user.about = form.about.data
 		if form.password.data:
 			if form.confirmPassword.data is None:
 				flash('Please confirm your password.')

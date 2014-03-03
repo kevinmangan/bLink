@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<title>Profile - {{user.username}}</title>
+		<title>Edit Profile - {{user.username}}</title>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -182,7 +182,7 @@
 			</div><!-- /.container -->
 		</div>
 
-		<div class="main-container" id="main-container">
+		<div class="main-container container" id="main-container">
 			<script type="text/javascript">
 				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
 			</script>
@@ -350,14 +350,27 @@
 																		<div class="col-sm-8">
 																			{{editProfileForm.firstName(class_="input-small")}}	
 																		</div>
+																	</div>
 
+																	<div class="form-group">
 																		<label class="col-sm-4 control-label no-padding-right" for="form-field-last">Last Name</label>
 
 																		<div class="col-sm-8">
 																			{{editProfileForm.lastName(class_="input-small")}}	
-																		</div>
-
+																		</div>	
 																	</div>
+
+																	<div class="space-4"></div>
+
+																	<div class="form-group">
+																		<label class="col-sm-3 control-label no-padding-right" for="form-field-email">About Me</label>
+
+																		<div class="col-sm-9">
+																			{{editProfileForm.about()}}																	
+																		</div>
+																	</div>	
+
+																	
 																</div>
 															</div>
 
