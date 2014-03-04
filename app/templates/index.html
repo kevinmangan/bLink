@@ -1,7 +1,8 @@
-<!-- extend from base layout -->
-{% extends "base.html" %}
 
-{% block content %}
+<html>
+<head>
+</head>
+<body>
 <h1>Log In</h1>
 <form action="login" method="post" name="login">
     {{form1.hidden_tag()}}
@@ -85,4 +86,6 @@
     <p>{{form2.remember_me}} Remember Me</p>
     <p><input type="submit" value="Sign Up"></p>
 </form>
-{% endblock %}
+</body>
+</html>
+

@@ -1,4 +1,6 @@
 from app import db
+import time
+import datetime
 
 ROLE_USER = 0
 ROLE_ADMIN = 1
@@ -31,9 +33,12 @@ class User(db.Model):
 		return '<User %r>' % (self.username)
 
 	def post_op(self, subject, body):
-		opportunity = Opportunity(network=self.network, subject=subject, body=body, user_id=self.id)
+		ts = time.time()
+		timestamp = datetime.datetime.fromtimestamp(ts).strftime('%I:%M %p').lstrip('0')
+		opportunity = Opportunity(network=self.network, subject=subject, body=body, user_id=self.id, timestamp=timestamp)
 		db.session.add(opportunity)
 		db.session.commit()
+
 
 class Student(User):
 	network = db.Column(db.String(120), index = True, unique = False)
@@ -50,7 +55,7 @@ class Opportunity(db.Model):
 	network = db.Column(db.String(120), index = True, unique = False)
 	subject = db.Column(db.String(40))
 	body = db.Column(db.String(140))
-	timestamp = db.Column(db.DateTime)
+	timestamp = db.Column(db.String(20))
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 	def __repr__(self):

@@ -90,6 +90,17 @@ def logout():
 	form = LoginForm()
 	return redirect("/")
 
+# Delete an opportunity
+@app.route("/delete/<id>")
+@login_required
+def delete(id):
+	opportunity = Opportunity.query.filter_by(id = id).first()
+	user = g.user
+	if user == opportunity.author:
+		db.session.delete(opportunity)
+		db.session.commit()
+	return redirect(url_for('user', username=user.username))
+
 @app.route("/opportunities/<network>", methods=["POST", "GET"])
 @login_required
 def opportunities(network):
@@ -103,7 +114,7 @@ def opportunities(network):
 		opportunities = Opportunity.query.all()
 	else:
 		opportunities = Opportunity.query.filter_by(network = network)
-	return render_template("opportunities.html", title = 'Opportunities', opportunities=opportunities, user=student, form=form)
+	return render_template("opportunities.html", title = 'Opportunities', opportunities=opportunities, user=student, form=form, network=network)
 
 @app.route("/user/<username>")
 @login_required   # login required wrapper to make sure the user is logged in

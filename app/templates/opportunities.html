@@ -7,13 +7,14 @@
 					<div class="page-content">
 						<div class="page-header">
 							<h1>
-								Opportunities
+								Opportunities - {{network}}
 							</h1>
 						</div><!-- /.page-header -->
 
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
+								{% if network == 'All' %}
 								<div class="widget-box">
 									<div class="widget-header">
 										<h4>Post an Opportunity</h4>
@@ -43,6 +44,9 @@
 										</div>
 									</div>
 								</div>
+								<br>
+								{% endif %}
+
 
 								<div id="timeline-1">
 									<div class="row">
@@ -54,29 +58,23 @@
 													{% for opportunity in opportunities %}
 													<div class="timeline-item clearfix">
 														<div class="timeline-info">
-															<img alt="Susan't Avatar" src="assets/avatars/avatar1.png" />
-															<span class="label label-info label-sm">16:22</span>
+															<img alt=" Avatar" src="../static/avatars/avatar1.png" />
+															<span class="label label-info label-sm">{{opportunity.timestamp}}</span>
 														</div>
 
 														<div class="widget-box transparent">
-															<div class="widget-header widget-header-small">
+															<div class="widget-header widget-header-large">
 																<h5 class="smaller">
-																	<a href="{{url_for('user', username=user.username)}}" class="blue">{{opportunity.author.firstName}} {{opportunity.author.lastName}}</a>
+																	<a href="{{url_for('user', username=user.username)}}" class="blue">{{opportunity.author.firstName}} {{opportunity.author.lastName}}</a> (<a href="{{url_for('opportunities', network=opportunity.network)}}" class="blue">{{opportunity.network}}</a>)
 																	<span class="grey">: {{opportunity.subject}}</span>
-																	<br>
-																	<a href="{{url_for('opportunities', network=opportunity.network)}}" class="blue">{{opportunity.network}}</a>
 																</h5>
 
 																<span class="widget-toolbar no-border">
 																	<i class="icon-time bigger-110"></i>
-																	16:22
+																	{{opportunity.timestamp}}
 																</span>
 
 																<span class="widget-toolbar">
-																	<a href="#" data-action="reload">
-																		<i class="icon-refresh"></i>
-																	</a>
-
 																	<a href="#" data-action="collapse">
 																		<i class="icon-chevron-up"></i>
 																	</a>
