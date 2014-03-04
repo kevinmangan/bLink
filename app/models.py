@@ -31,9 +31,8 @@ class User(db.Model):
 		return '<User %r>' % (self.username)
 
 class Student(User):
-	school = db.Column(db.String(120), index = True, unique = False)
+	network = db.Column(db.String(120), index = True, unique = False)
 	class_year = db.Column(db.Integer(), index = True, unique = False)
-
 
 class Recruiter(User):
 	pass
@@ -43,6 +42,7 @@ class Recruiter(User):
 
 class Opportunity(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
+	network = db.Column(db.String(120), index = True, unique = False)
 	subject = db.Column(db.String(40))
 	body = db.Column(db.String(140))
 	timestamp = db.Column(db.DateTime)
@@ -50,3 +50,13 @@ class Opportunity(db.Model):
 
 	def __repr__(self):
 		return '<Opportunity %r>' % (self.body)
+
+
+
+
+
+
+
+
+
+

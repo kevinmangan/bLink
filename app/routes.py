@@ -7,6 +7,7 @@ from models import User, Student, Recruiter, Opportunity
 
 reserved_usernames = 'home signup login logout post'
 
+
 @lm.user_loader
 def load_user(id):
 	return User.query.get(int(id))
@@ -32,12 +33,8 @@ def login():
 		email = loginForm.email.data
 		username = loginForm.username.data
 		password = loginForm.password.data
-		if email is None or username is None or password is None:
+		if username is None or password is None:
 			flash('Invalid login. Please try again.')
-			return redirect(url_for('index'))
-		user = User.query.filter_by(email = email).first()
-		if user is None:
-			flash('That email does not exist. Please try again.')
 			return redirect(url_for('index'))
 		user = User.query.filter_by(username = username).first()
 		if user is None:
@@ -47,7 +44,7 @@ def login():
 			flash('Invalid Login. Please try again.')
 			return redirect(url_for('index'))
 		login_user(user, remember=True)
-		return redirect(request.args.get("next") or url_for("user", username=user.username))
+		return redirect(request.args.get("next") or url_for("user", username=user.username, user=user))
 	return render_template("index.html", title = 'Sign In', form1=loginForm, form2=signupForm)
 
 @app.route("/signup", methods=["POST"])
@@ -64,7 +61,7 @@ def signup():
 			email = signupForm.email.data
 			firstName = signupForm.firstName.data
 			lastName = signupForm.lastName.data
-			school = signupForm.school.data
+			network = signupForm.network.data
 			location = signupForm.location.data
 			class_year = signupForm.class_year.data
 			
@@ -80,11 +77,11 @@ def signup():
 			
 			# Create the user
 			student = Student(username=username, password=password_hash, email=email, firstName=firstName, lastName=lastName, location=location,
-			school=school, class_year=class_year)
+			network=network, class_year=class_year)
 			db.session.add(student)
 			db.session.commit()
 		login_user(student, remember=True)
-		return redirect(request.args.get("next") or url_for("editProfile", username=student.username))
+		return redirect(request.args.get("next") or url_for("editProfile", username=student.username, user=student))
 	return render_template("index.html", title = 'Sign Up', form1=loginForm, form2=signupForm)
 
 @app.route("/logout")
@@ -94,6 +91,16 @@ def logout():
 	form = LoginForm()
 	return redirect("/")
 
+@app.route("/opportunities/<network>")
+@login_required
+def opportunities(network):
+	user = g.user
+	student = Student.query.filter_by(username = user.username).first()
+	if network is 'All':
+		opportunities = Opportunity.query()
+	else:
+		opportunities = Opportunity.query.filter_by(network = network)
+	return render_template("opportunities.html", title = 'Opportunities', opportunities=opportunities, user=student)
 
 @app.route("/user/<username>")
 @login_required   # login required wrapper to make sure the user is logged in
@@ -108,7 +115,8 @@ def user(username):
 	]
 	return render_template('user.html',
 		user = user,
-		opportunities = opportunities)
+		opportunities = opportunities,
+		title = 'Profile - ' + user.username)
 
 @app.route("/edit/<username>", methods=["POST", "GET"])
 @login_required
@@ -132,13 +140,13 @@ def editProfile(username):
 		if form.password.data:
 			if form.confirmPassword.data is None:
 				flash('Please confirm your password.')
-				return redirect(url_for("editProfile", username=user.username))
+				return redirect(url_for("editProfile", username=user.username,  user=user))
 			if form.password.data != form.confirmPassword.data:
 				flash('Confirmation does not match.')
-				return redirect(url_for("editProfile", username=user.username))
+				return redirect(url_for("editProfile", user=user))
 			password_hash = bcrypt.generate_password_hash(form.password.data)
 			user.password = password_hash
 		db.session.commit()
 		return redirect(url_for('user', username=user.username))
-	return render_template("edit.html", title = 'Sign Up', user=user, editProfileForm=form)
+	return render_template("edit.html", title = 'Edit Profile', username=user.username, user=user, editProfileForm=form)
 

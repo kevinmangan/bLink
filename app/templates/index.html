@@ -19,13 +19,6 @@
         <span style="color: red;">[{{error}}]</span>
         {% endfor %}<br>
     </p>
-    <p>
-        Please enter your email:<br>
-        {{form1.email(size=80)}}<br>
-        {% for error in form1.errors.email %}
-        <span style="color: red;">[{{error}}]</span>
-        {% endfor %}<br>
-    </p>
     <p>{{form1.remember_me}} Remember Me</p>
     <p><input type="submit" value="Log In"></p>
 </form>
@@ -77,8 +70,8 @@
     </p>
     <p>
         Please enter your school:<br>
-        {{form2.school(size=80)}}<br>
-        {% for error in form2.errors.school %}
+        {{form2.network()}}<br>
+        {% for error in form2.errors.network %}
         <span style="color: red;">[{{error}}]</span>
         {% endfor %}<br>
     </p>

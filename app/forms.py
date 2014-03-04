@@ -1,5 +1,5 @@
 from flask.ext.wtf import Form
-from wtforms import TextField, BooleanField, PasswordField, FileField, TextAreaField
+from wtforms import TextField, BooleanField, PasswordField, FileField, TextAreaField, SelectField
 from wtforms.validators import Required
 
 class LoginForm(Form):
@@ -15,7 +15,10 @@ class SignupForm(Form):
     lastName = TextField('lastName', validators = [Required()])
     email = TextField('email', validators = [Required()])
     location = TextField('location', validators = [Required()])
-    school = TextField('school', validators = [Required()])
+    network = SelectField('network', choices=[('INSEAD', 'INSEAD'), ('Columbia Business School', 'Columbia Business School'), 
+        ('London Business School', 'London Business School'),
+     ('Harvard Business School', 'Harvard Business School'), ('Stanford Graduate School of Business', 'Stanford Graduate School of Business'),
+      ('University of Pennsylvania: Wharton', 'University of Pennsylvania: Wharton')], validators = [Required()])
     class_year = TextField('class_year', validators = [Required()])
     remember_me = BooleanField('remember_me', default = False)
 
