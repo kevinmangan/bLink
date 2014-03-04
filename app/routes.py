@@ -1,8 +1,7 @@
 from app import app, db, lm, bcrypt
-from flask import render_template
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
-from forms import LoginForm, SignupForm, EditProfileForm
+from forms import LoginForm, SignupForm, EditProfileForm, OpForm
 from models import User, Student, Recruiter, Opportunity
 
 reserved_usernames = 'home signup login logout post'
@@ -91,16 +90,20 @@ def logout():
 	form = LoginForm()
 	return redirect("/")
 
-@app.route("/opportunities/<network>")
+@app.route("/opportunities/<network>", methods=["POST", "GET"])
 @login_required
 def opportunities(network):
 	user = g.user
 	student = Student.query.filter_by(username = user.username).first()
-	if network is 'All':
-		opportunities = Opportunity.query()
+	form = OpForm()
+	if request.method == 'POST':
+		student.post_op(form.subject.data, form.body.data)
+		return redirect(url_for('opportunities', network=network))
+	if network == 'All':
+		opportunities = Opportunity.query.all()
 	else:
 		opportunities = Opportunity.query.filter_by(network = network)
-	return render_template("opportunities.html", title = 'Opportunities', opportunities=opportunities, user=student)
+	return render_template("opportunities.html", title = 'Opportunities', opportunities=opportunities, user=student, form=form)
 
 @app.route("/user/<username>")
 @login_required   # login required wrapper to make sure the user is logged in

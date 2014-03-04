@@ -14,16 +14,40 @@
 						<div class="row">
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
+								<div class="widget-box">
+									<div class="widget-header">
+										<h4>Post an Opportunity</h4>
+									</div>
+
+									<div class="widget-body">
+										<div class="widget-main no-padding">
+											<form method="post">
+												<fieldset>
+													<label>Subject</label>
+
+													{{form.subject(class_="input-small")}}
+												</fieldset>
+												<fieldset>
+													<label>Body</label>
+
+													{{form.body(class_="input-large")}}
+												</fieldset>
+
+												<div class="form-actions center">
+													<button type="submit" class="btn btn-sm btn-success">
+														Post
+														<i class="icon-arrow-down icon-on-right bigger-110"></i>
+													</button>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
 
 								<div id="timeline-1">
 									<div class="row">
 										<div class="col-xs-12 col-sm-10 col-sm-offset-1">
 											<div class="timeline-container">
-												<div class="timeline-label">
-													<span class="label label-primary arrowed-in-right label-lg">
-														<b>Today</b>
-													</span>
-												</div>
 
 												<div class="timeline-items">
 													
@@ -37,8 +61,10 @@
 														<div class="widget-box transparent">
 															<div class="widget-header widget-header-small">
 																<h5 class="smaller">
-																	<a href="#" class="blue">{{opportunity.author.firstName}} {{opportunity.author.lastName}}</a>
+																	<a href="{{url_for('user', username=user.username)}}" class="blue">{{opportunity.author.firstName}} {{opportunity.author.lastName}}</a>
 																	<span class="grey">: {{opportunity.subject}}</span>
+																	<br>
+																	<a href="{{url_for('opportunities', network=opportunity.network)}}" class="blue">{{opportunity.network}}</a>
 																</h5>
 
 																<span class="widget-toolbar no-border">
@@ -83,8 +109,6 @@
 														</div>
 													</div>
 													{% endfor %}
-
-
 												</div><!-- /.timeline-items -->
 											</div><!-- /.timeline-container -->
 

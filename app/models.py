@@ -30,6 +30,11 @@ class User(db.Model):
 	def __repr__(self):
 		return '<User %r>' % (self.username)
 
+	def post_op(self, subject, body):
+		opportunity = Opportunity(network=self.network, subject=subject, body=body, user_id=self.id)
+		db.session.add(opportunity)
+		db.session.commit()
+
 class Student(User):
 	network = db.Column(db.String(120), index = True, unique = False)
 	class_year = db.Column(db.Integer(), index = True, unique = False)

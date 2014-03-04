@@ -32,3 +32,8 @@ class EditProfileForm(Form):
     email = TextField('email', id="form-field-email")
     phone = TextField('phone', id="form-field-phone")
     about = TextAreaField('location')
+
+class OpForm(Form):
+    subject = TextField('subject', validators = [Required()])
+    body = TextAreaField('body', validators = [Required()])
+    
