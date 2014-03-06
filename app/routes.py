@@ -1,7 +1,7 @@
 from app import app, db, lm, bcrypt
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
-from forms import LoginForm, SignupForm, EditProfileForm, OpForm
+from forms import LoginForm, SignupForm, EditProfileForm, OpForm, messageForm
 from models import User, Student, Recruiter, Opportunity
 
 reserved_usernames = 'home signup login logout post'
@@ -29,7 +29,6 @@ def login():
 	loginForm = LoginForm()
 	signupForm = SignupForm()
 	if loginForm.validate_on_submit():
-		email = loginForm.email.data
 		username = loginForm.username.data
 		password = loginForm.password.data
 		if username is None or password is None:
@@ -163,4 +162,22 @@ def editProfile(username):
 		db.session.commit()
 		return redirect(url_for('user', username=user.username))
 	return render_template("edit.html", title = 'Edit Profile', username=user.username, user=user, editProfileForm=form)
+
+
+@app.route("/inbox/<username>", methods=["POST", "GET"])
+@login_required
+def inbox(username):
+	form = messageForm()
+	user = Student.query.filter_by(username = username).first()
+	if request.method == 'POST':
+		user.send_message(form.body.data, form.sentTo.data, form.conversation.data)
+	return render_template("inbox.html", user=user, form=form)
+
+# Mark mail as read when you click it
+@app.route("/mark_as_read", methods=["POST"])
+@login_required
+def mark_as_read():
+	message = request.form['message']
+	message.isNew = False
+	db.session.commit()
 

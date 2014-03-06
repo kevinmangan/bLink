@@ -1,11 +1,10 @@
 from flask.ext.wtf import Form
-from wtforms import TextField, BooleanField, PasswordField, FileField, TextAreaField, SelectField
+from wtforms import TextField, BooleanField, PasswordField, FileField, TextAreaField, SelectField, HiddenField
 from wtforms.validators import Required
 
 class LoginForm(Form):
     username = TextField('username', validators = [Required()])
     password = PasswordField('password', validators = [Required()])
-    email = TextField('email', validators = [Required()])
     remember_me = BooleanField('remember_me', default = False)
 
 class SignupForm(Form):
@@ -36,4 +35,8 @@ class EditProfileForm(Form):
 class OpForm(Form):
     subject = TextField('subject', validators = [Required()])
     body = TextAreaField('body', validators = [Required()])
-    
+
+class messageForm(Form):
+    body = TextAreaField('body', validators = [Required()])
+    sentTo = HiddenField('sentTo')
+    conversation = HiddenField('conversation')
