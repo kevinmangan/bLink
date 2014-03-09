@@ -84,8 +84,13 @@ class User(db.Model):
 		db.session.commit()
 
 	def unread_messages(self):
-		return Message.query.join(User.receivedMessages).filter(User.id==self.id).filter_by(isNew=True).count()
-
+		#return Message.query.join(User.receivedMessages).filter(User.id==self.id).filter_by(isNew=True).count()
+		messages = self.receivedMessages.all()
+		i = 0
+		for message in messages:
+			if message.isNew:
+				i = i + 1
+		return i
 
 class Opportunity(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
@@ -128,7 +133,7 @@ class Message(db.Model):
 class Conversation(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
 	subject = db.Column(db.String(40))
-	messages = db.relationship('Message', lazy = 'dynamic')
+	messages = db.relationship('Message', backref="convo", lazy = 'dynamic')
 	opportunity = db.Column(db.Integer, db.ForeignKey('opportunity.id'))
 	users = db.relationship('User', secondary=conversation_table, backref=db.backref('conversations', lazy='dynamic'))
 

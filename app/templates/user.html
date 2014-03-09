@@ -3,11 +3,19 @@
 	{% block content %}
 				<div class="main-content">
 					<div class="page-content">
-						<div class="page-header">
-							<h1>
-								Your Profile Page
-							</h1>
-						</div><!-- /.page-header -->
+						{% if user.username == g.user.username %}
+							<div class="page-header">
+								<h1>
+									Your Profile Page
+								</h1>
+							</div><!-- /.page-header -->
+						{% else %}
+							<div class="page-header">
+								<h1>
+									{{user.firstName}}'s Profile Page
+								</h1>
+							</div><!-- /.page-header -->
+						{% endif %}
 
 						<div class="row">
 							<div class="col-xs-12">
@@ -50,6 +58,7 @@
 
 															<div class="space space-4"></div>
 
+														{% if user.username != g.user.username %}
 															<a href="#" class="btn btn-sm btn-block btn-success">
 																<i class="icon-plus-sign bigger-120"></i>
 																<span class="bigger-110">Add as a friend</span>
@@ -59,6 +68,7 @@
 																<i class="icon-envelope-alt bigger-110"></i>
 																<span class="bigger-110">Send a message</span>
 															</a>
+														{% endif %}
 														</div><!-- /span -->
 
 														<div class="col-xs-12 col-sm-9">
@@ -755,7 +765,6 @@
 				      </div>
 				      <div class="modal-footer">
 				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				        <button type="button" class="btn btn-primary">Save changes</button>
 				      </div>
 				    </div><!-- /.modal-content -->
 				  </div><!-- /.modal-dialog -->

@@ -186,10 +186,11 @@ def inbox(username):
 @app.route("/mark_as_read", methods=["POST"])
 @login_required
 def mark_as_read():
-	message_id = request.form['message']
-	message = Message.query.get(int(message_id))
-	message.isNew = False
-	db.session.commit()
+	conversation_id = request.form['conversation']
+	conversation = Conversation.query.get(int(conversation_id))
+	for message in conversation.messages:
+		message.isNew = False
+		db.session.commit()
 	return jsonify()
 
 # AJAX (relevant javascript in base.html)
