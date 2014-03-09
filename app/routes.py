@@ -1,8 +1,8 @@
 from app import app, db, lm, bcrypt
-from flask import render_template, flash, redirect, session, url_for, request, g
+from flask import render_template, flash, redirect, session, url_for, request, g, jsonify
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from forms import LoginForm, SignupForm, EditProfileForm, OpForm, messageForm
-from models import User, Student, Recruiter, Opportunity
+from models import User, Opportunity, Conversation, Message, Like
 
 reserved_usernames = 'home signup login logout post'
 
@@ -74,12 +74,12 @@ def signup():
 				return redirect(url_for('index'))
 			
 			# Create the user
-			student = Student(username=username, password=password_hash, email=email, firstName=firstName, lastName=lastName, location=location,
+			user = User(username=username, password=password_hash, email=email, firstName=firstName, lastName=lastName, location=location,
 			network=network, class_year=class_year)
-			db.session.add(student)
+			db.session.add(user)
 			db.session.commit()
-		login_user(student, remember=True)
-		return redirect(request.args.get("next") or url_for("editProfile", username=student.username, user=student))
+		login_user(user, remember=True)
+		return redirect(request.args.get("next") or url_for("editProfile", username=user.username, user=user))
 	return render_template("index.html", title = 'Sign Up', form1=loginForm, form2=signupForm)
 
 @app.route("/logout")
@@ -104,37 +104,42 @@ def delete(id):
 @login_required
 def opportunities(network):
 	user = g.user
-	student = Student.query.filter_by(username = user.username).first()
 	form = OpForm()
 	if request.method == 'POST':
-		student.post_op(form.subject.data, form.body.data)
+		user.post_op(form.subject.data, form.body.data)
 		return redirect(url_for('opportunities', network=network))
 	if network == 'All':
 		opportunities = Opportunity.query.all()
 	else:
 		opportunities = Opportunity.query.filter_by(network = network)
-	return render_template("opportunities.html", title = 'Opportunities', opportunities=opportunities, user=student, form=form, network=network)
+	return render_template("opportunities.html", title = 'Opportunities', opportunities=opportunities, user=user, form=form, network=network)
 
-@app.route("/user/<username>")
+@app.route("/user/<username>", methods=["POST", "GET"])
 @login_required   # login required wrapper to make sure the user is logged in
 def user(username):
-	user = Student.query.filter_by(username = username).first()
+	form = messageForm()
+	user = User.query.filter_by(username = username).first()
 	if user == None:
 		flash('User ' + username + ' not found.')
 		return redirect(url_for('index'))
-	opportunities = [
-		{ 'author': user, 'subject': 'Test post #1', 'body': 'Test post #1' },
-		{ 'author': user, 'subject': 'Test post #1', 'body': 'Test post #2' }
-	]
+	if request.method == 'POST':
+		subject = request.form['subject']
+		opportunity_id = request.form['opportunity']
+		opportunity = Opportunity.query.get(int(opportunity_id))
+		body = request.form['body']
+		sentTo_id = request.form['sentTo']
+		sentTo = User.query.get(int(sentTo_id))
+		conversation = user.start_conversation(subject=subject, opportunity=opportunity, sentTo=sentTo)
+		user.send_message(body=body, sentTo=sentTo, conversation=conversation)
 	return render_template('user.html',
 		user = user,
-		opportunities = opportunities,
+		form = form,
 		title = 'Profile - ' + user.username)
 
 @app.route("/edit/<username>", methods=["POST", "GET"])
 @login_required
 def editProfile(username):
-	user = Student.query.filter_by(username = username).first()
+	user = User.query.filter_by(username = username).first()
 	if user == None:
 		flash('User ' + username + ' not found.')
 		return redirect(url_for('index'))
@@ -167,17 +172,36 @@ def editProfile(username):
 @app.route("/inbox/<username>", methods=["POST", "GET"])
 @login_required
 def inbox(username):
-	form = messageForm()
-	user = Student.query.filter_by(username = username).first()
+	user = User.query.filter_by(username = username).first()
 	if request.method == 'POST':
-		user.send_message(form.body.data, form.sentTo.data, form.conversation.data)
-	return render_template("inbox.html", user=user, form=form)
+		sentTo_id = request.form['sentTo']
+		sentTo = User.query.get(int(sentTo_id))
+		conversation_id = request.form['conversation']
+		conversation = Conversation.query.get(int(conversation_id))
+		user.send_message(request.form['body'], sentTo, conversation)
+	return render_template("inbox.html", user=user)
 
 # Mark mail as read when you click it
+# AJAX (relevant javascript in base.html)
 @app.route("/mark_as_read", methods=["POST"])
 @login_required
 def mark_as_read():
-	message = request.form['message']
+	message_id = request.form['message']
+	message = Message.query.get(int(message_id))
 	message.isNew = False
 	db.session.commit()
+	return jsonify()
+
+# AJAX (relevant javascript in base.html)
+@app.route("/like_opportunity", methods=["POST"])
+@login_required
+def like_opportunity():
+	opportunity_id = request.form['opportunity_id']
+	opportunity = Opportunity.query.get(int(opportunity_id))
+	user_id = request.form['user_id']
+	user = User.query.get(int(user_id))
+	user.like_op(opportunity=opportunity)
+	return jsonify()
+
+	
 

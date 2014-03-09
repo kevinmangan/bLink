@@ -261,15 +261,19 @@
 
 															{% for opportunity in user.opportunities %}
 
+																<h3>{{opportunity.subject}}</h3>
+																<hr>
+																{% for like in opportunity.likes %}
+
 															<div class="profile-activity clearfix">
 																<div>
 																	<img class="pull-left" alt="Alex Doe's avatar" src="../static/avatars/avatar5.png" />
-																	<a class="user" href="#"> {{opportunity.subject}} </a>
-																	<a href="#">Take a look</a>
+																	<a class="user" href="{{url_for('user', username=like.sender.username)}}" > {{like.sender.firstName}} {{like.sender.lastName}}</a>
+																	liked this opportunity. <a href="#" data-toggle="modal" data-target="#modal{{like.id}}"> Start a conversation</a>
 
 																	<div class="time">
 																		<i class="icon-time bigger-110"></i>
-																		{{opportunity.getTime()}}
+																		{{like.getTime()}}
 																	</div>
 																</div>
 
@@ -283,7 +287,8 @@
 																	</a>
 																</div>
 															</div>
-															
+
+																{% endfor %}
 															{% endfor %}
 
 														</div><!-- /span -->
@@ -712,5 +717,54 @@
 						</div><!-- /.row -->
 					</div><!-- /.page-content -->
 				</div><!-- /.main-content -->
+
+				{% for opportunity in user.opportunities %}
+
+					{% for like in opportunity.likes %}
+				<div class="modal fade" id="modal{{like.id}}" style="position:absolute">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				        <h4 class="modal-title">Start a conversation with {{like.sender.firstName}} {{like.sender.lastName}}</h4>
+				      </div>
+				      <div class="modal-body">
+				        <form name="messageForm" method="post">
+							<input type="hidden" name="opportunity" value="{{opportunity.id}}"></input>
+							<input type="hidden" name="sentTo" value="{{like.sender.id}}"></input>
+							<input type="hidden" name="subject" value="{{opportunity.subject}}"></input>
+
+
+								<div class="form-group">
+									<div class="col-sm-12">
+										<div class="wysiwyg-editor" name="body"></div>
+									</div>
+								</div>
+
+								<div class="hr hr-18 dotted"></div>
+								<div class="space"></div>
+							
+							<span class="inline btn-send-message">
+								<button type="submit" class="btn btn-sm btn-primary no-border" id="submit">
+									<span class="bigger-110">Send</span>
+
+									<i class="icon-arrow-right icon-on-right"></i>
+								</button>
+							</span>
+						</form>
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				        <button type="button" class="btn btn-primary">Save changes</button>
+				      </div>
+				    </div><!-- /.modal-content -->
+				  </div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+				{% endfor %}
+			{% endfor %}
+{% endblock %}
+
+{% block userScripts %}
+	{{ super() }}
 {% endblock %}
 			

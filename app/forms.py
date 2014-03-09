@@ -40,3 +40,5 @@ class messageForm(Form):
     body = TextAreaField('body', validators = [Required()])
     sentTo = HiddenField('sentTo')
     conversation = HiddenField('conversation')
+    subject = HiddenField('subject')
+    opportunity = HiddenField('opportunity')

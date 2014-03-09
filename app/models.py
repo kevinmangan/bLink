@@ -1,6 +1,7 @@
 from app import db
 import time
 import datetime
+from sqlalchemy import desc
 
 
 ### Establishes many to many relationship between user and messages
@@ -31,12 +32,14 @@ class User(db.Model):
 	about = db.Column(db.String(1000), index = False, unique = False)
 	opportunities = db.relationship('Opportunity', backref = 'author', lazy = 'dynamic')
 	sentLikes = db.relationship('Like', backref = 'sender', lazy = 'dynamic')
+	network = db.Column(db.String(120), index = True, unique = False)
+	class_year = db.Column(db.Integer(), index = True, unique = False)
 
 	## Backrefs ##
 	##############
 	## sentMessages
 	## receivedMessages
-	## conversation
+	## conversations
 
 	def is_authenticated(self):
 		return True
@@ -60,33 +63,29 @@ class User(db.Model):
 		db.session.add(opportunity)
 		db.session.commit()
 
-	def like_op(self, receiver, opportunity):
+	def like_op(self, opportunity):
 		ts = time.time()
 		timestamp = datetime.datetime.fromtimestamp(ts)
-		like = Like(timestamp=timestamp, is_new=True, user_id=self.id, opportunity=opportunity)
-		db.session.add(opportunity)
+		like = Like(timestamp=timestamp, isNew=True, sentFrom=self.id, opportunity=opportunity.id)
+		db.session.add(like)
 		db.session.commit()
 
-	def start_conversation(self, subject, opportunity):
-		conversation = Conversation(subject=subject, opportinity=opportunity)
+	def start_conversation(self, subject, opportunity, sentTo):
+		conversation = Conversation(subject=subject, opportunity=opportunity.id, users=[self, sentTo])
 		db.session.add(conversation)
 		db.session.commit()
+		return conversation
 
 	def send_message(self, body, sentTo, conversation):
-		message = Message(body=body, sentTo=sentTo, sentFrom=self, conversation=conversation)
+		ts = time.time()
+		timestamp = datetime.datetime.fromtimestamp(ts)
+		message = Message(body=body, sentTo=[sentTo], sentFrom=[self], conversation=conversation.id, isNew=True, timestamp=timestamp) # The many to many parameters have to be in lists. weird.
 		db.session.add(message)
 		db.session.commit()
 
 	def unread_messages(self):
-		return Message.query.join(User.receivedMessages).filter_by(isNew=True).count()
+		return Message.query.join(User.receivedMessages).filter(User.id==self.id).filter_by(isNew=True).count()
 
-
-class Student(User):
-	network = db.Column(db.String(120), index = True, unique = False)
-	class_year = db.Column(db.Integer(), index = True, unique = False)
-
-class Recruiter(User):
-	pass
 
 class Opportunity(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
@@ -99,7 +98,6 @@ class Opportunity(db.Model):
 	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 	
 	def getTime(self):
-		ts = time.time()
 		return self.timestamp.strftime('%I:%M %p').lstrip('0')
 
 	## Backrefs ##
@@ -114,11 +112,15 @@ class Opportunity(db.Model):
 class Message(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
 	body = db.Column(db.String(140))
-	timestamp = db.Column(db.String(20))
+	timestamp = db.Column(db.DateTime())
 	isNew = db.Column(db.Boolean())
 	sentTo = db.relationship('User', secondary=sent_to_table, backref=db.backref('receivedMessages', lazy='dynamic'))
 	sentFrom = db.relationship('User', secondary=sent_from_table, backref=db.backref('sentMessages', lazy='dynamic'))
 	conversation = db.Column(db.Integer, db.ForeignKey('conversation.id'))
+
+	def getTime(self):
+		return self.timestamp.strftime('%I:%M %p').lstrip('0')
+
 
 
 # Relationship: A conversation has many messages
@@ -130,9 +132,17 @@ class Conversation(db.Model):
 	opportunity = db.Column(db.Integer, db.ForeignKey('opportunity.id'))
 	users = db.relationship('User', secondary=conversation_table, backref=db.backref('conversations', lazy='dynamic'))
 
-	def mostRecentMessage(self):
-		return Message.query.filter(conversation=self).order_by(desc(Message.timestamp)).first()
-
+	# Return most recent message in a conversation
+	# Used to display the most recent messages of each conversation in the inbox
+	def mostRecentMessage(self, user):
+		messages = self.messages.order_by(Message.timestamp).all()
+		for message in messages:
+			if message.sentFrom[0] == user:
+				messages.remove(message)
+		if messages:
+			return messages[0]
+		else:
+			return False
 
 # A user likes an opportunity
 # Relationship: One user has many likes (that they sent)
@@ -141,11 +151,15 @@ class Like(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
 	timestamp = db.Column(db.DateTime(), index = True)
 	isNew = db.Column(db.String(140))
-	user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+	sentFrom = db.Column(db.Integer, db.ForeignKey('user.id'))
 	opportunity = db.Column(db.Integer, db.ForeignKey('opportunity.id'))
 
 	## Backrefs ##
 	## sender
+
+	def getTime(self):
+		ts = time.time()
+		return self.timestamp.strftime('%I:%M %p').lstrip('0')
 
 ### For each user.conversation, display most recent message subject
 	### For each message in conversation, display them

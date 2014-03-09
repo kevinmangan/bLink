@@ -65,7 +65,7 @@
 														<div class="widget-box transparent">
 															<div class="widget-header widget-header-large">
 																<h5 class="smaller">
-																	<a href="{{url_for('user', username=user.username)}}" class="blue">{{opportunity.author.firstName}} {{opportunity.author.lastName}}</a> (<a href="{{url_for('opportunities', network=opportunity.network)}}" class="blue">{{opportunity.network}}</a>)
+																	<a href="{{url_for('user', username=opportunity.author.username)}}" class="blue">{{opportunity.author.firstName}} {{opportunity.author.lastName}}</a> (<a href="{{url_for('opportunities', network=opportunity.network)}}" class="blue">{{opportunity.network}}</a>)
 																	<span class="grey">: {{opportunity.subject}}</span>
 																</h5>
 
@@ -90,7 +90,7 @@
 
 																		<div class="pull-right action-buttons">
 																			<a href="#">
-																				<i class="icon-ok green bigger-130"></i>
+																				<i class="icon-ok green bigger-130" id="{{opportunity.id}}"></i>
 																			</a>
 
 																			<a href="#">
@@ -122,3 +122,7 @@
 				</div><!-- /.main-content -->
 
 	{% endblock %}
+
+	{% block opportunitiesScripts %}
+		{{ super() }}
+	{%	endblock %}

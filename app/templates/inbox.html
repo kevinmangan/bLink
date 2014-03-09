@@ -69,7 +69,7 @@
 															<div class="message-bar">
 																<div class="message-infobar" id="id-message-infobar">
 																	<span class="blue bigger-150">Inbox</span>
-																	<span class="grey bigger-110"> ({{user.unread_messages()}} unread messages)</span>
+																	<span class="grey bigger-110"> ({{g.user.unread_messages()}} unread messages)</span>
 																</div>
 
 																<div class="message-toolbar hide">
@@ -213,9 +213,12 @@
 														<div class="message-list-container">
 															<div class="message-list" id="message-list">
 																
-															{% for conversation in user.conversations %}
-																{% for message in conversation.message %}
-																	{% if message.isNew() %}
+															{% for conversation in g.user.conversations.all() %}
+																	{% set message = conversation.mostRecentMessage(g.user) %}
+																	{% if message %}
+																		{% if message.isNew %}
+																	
+																	
 																	<div class="message-item message-unread">
 																		<label class="inline">
 																			<input type="checkbox" class="ace" />
@@ -224,16 +227,16 @@
 
 																		<!-- <i class="message-star icon-star orange2"></i> -->
 																		<i class="message-star icon-star-empty light-grey"></i>
-																		<span class="sender" title="{message.sentFrom}">{{message.sentFrom}} </span>
-																		<span class="time">{{message.timestamp}}</span>
+																		<span class="sender" title="{{message.sentFrom[0].firstName}}">{{message.sentFrom[0].firstName}} {{message.sentFrom[0].lastName}} </span>
+																		<span class="time">{{message.getTime()}}</span>
 
 																		<span class="summary">
-																			<span class="text">
+																			<span class="text" id="{{message.id}}">
 																				{{conversation.subject}}
 																			</span>
 																		</span>
 																	</div>
-																	{$ else %}
+																	{% else %}
 																	<div class="message-item">
 																		<label class="inline">
 																			<input type="checkbox" class="ace" />
@@ -241,18 +244,20 @@
 																		</label>
 
 																		<i class="message-star icon-star orange2"></i>
-																		<span class="sender" title="{message.sentFrom}">{message.sentFrom} </span>
-																		<span class="time">{{message.timestamp}}</span>
+																		<span class="sender" title="{{message.sentFrom[0].firstName}}">{{message.sentFrom[0].firstName}} {{message.sentFrom[0].lastName}} </span>
+																		<span class="time">{{message.getTime()}}</span>
 
 																		<span class="summary">
-																			<span class="text" id={{message.id}}>
+																			<span class="text" id="{{message.id}}">
 																				{{conversation.subject}}
 																			</span>
 																		</span>
 																	</div>
+																		{% endif %}
 																	{% endif %}
-
+																	
 																	<div class="hide message-content" id="id-message-content">
+																	{% for message in conversation.messages %}
 																		<div class="message-header clearfix">
 																			<div class="pull-left">
 																				<div class="space-4"></div>
@@ -262,11 +267,11 @@
 																				&nbsp;
 																				<img class="middle" alt="John's Avatar" src="../static/avatars/avatar.png" width="32" />
 																				&nbsp;
-																				<a href="#" class="sender">{{message.sentFrom}}</a>
+																				<a href="#" class="sender">{{message.sentFrom[0].firstName}} {{message.sentFrom[0].lastName}}</a>
 
 																				&nbsp;
 																				<i class="icon-time bigger-110 orange middle"></i>
-																				<span class="time">{{message.timestamp}}</span>
+																				<span class="time">{{message.getTime()}}</span>
 																			</div>
 
 																			<div class="action-buttons pull-right">
@@ -284,44 +289,38 @@
 																			</div>
 																		</div>
 
-																		<div class="hr hr-double"></div>
+																		<hr>
 
-																		<div class="message-body">
-																			<p>
-																				{{message.body}}
-																			</p>
-																		</div>
-
-																		<div class="hr hr-double"></div>
 																		
+																			
+																				{{message.body}}
+																		<br>
+																		<div class="hr hr-double"></div>
+																		{% endfor %}
 																	</div><!-- /.message-content -->
-																{% endfor %}
+																
 
-																<form id="id-message-form" class="hide form-horizontal message-form  col-xs-12">
-																{% for message in conversation.messages %}
-																	{% if message.sentFrom != user %}
-																		{% set sentTo = user %}
+																<form id="id-message-form" class="hide form-horizontal message-form col-xs-12" method="post">
+																{% set sentTo = [] %} <!-- Template scope doesn't let you change value inside loops -->
+																{% for user in conversation.users %}
+																	{% if user != g.user %}
+																		{% if sentTo.append(user) %} {% endif %}
 																	{% endif %}
 																{% endfor %}
-																{{form.sentTo(sentTo)}}
-																{{form.conversation(conversation)}}
-																	<div class="">
+																<input type="hidden" name="sentTo" value="{{sentTo[0].id}}"></input>
+																<input type="hidden" name="conversation" value="{{conversation.id}}"></input>
+																	
 																		<div class="form-group">
-																			<label class="col-sm-3 control-label no-padding-right">
-																				<span class="inline space-24 hidden-480"></span>
-																				Message:
-																			</label>
-
 																			<div class="col-sm-9">
-																				{{form.body(class_="wysiwyg-editor")}}
+																				<div class="wysiwyg-editor" name="body"></div>
 																			</div>
 																		</div>
 
 																		<div class="hr hr-18 dotted"></div>
 																		<div class="space"></div>
-																	</div>
+																	
 																	<span class="inline btn-send-message">
-																		<button type="submit" class="btn btn-sm btn-primary no-border">
+																		<button type="submit" class="btn btn-sm btn-primary no-border" id="submit">
 																			<span class="bigger-110">Send</span>
 
 																			<i class="icon-arrow-right icon-on-right"></i>
@@ -334,8 +333,8 @@
 														</div><!-- /.message-list-container -->
 
 														<div class="message-footer clearfix">
-															{% if user.receivedMessages %}
-																<div class="pull-left"> {{ user.receivedMessages.all()|count }} messages total </div>
+															{% if g.user.receivedMessages %}
+																<div class="pull-left"> {{ g.user.receivedMessages.all()|count }} messages total </div>
 															{% else %}
 																<div class="pull-left"> You have 0 messages </div>
 															{% endif %}
@@ -400,3 +399,7 @@
 
 
 	{% endblock %}
+
+	{% block inboxScripts %}
+		{{ super() }}
+	{%	endblock %}
