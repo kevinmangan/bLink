@@ -231,8 +231,9 @@
 																		<span class="time">{{message.getTime()}}</span>
 
 																		<span class="summary">
-																			<span class="text" id="{{message.id}}">
+																			<span class="text" id="{{conversation.id}}">
 																				{{conversation.subject}}
+
 																			</span>
 																		</span>
 																	</div>
@@ -248,7 +249,7 @@
 																		<span class="time">{{message.getTime()}}</span>
 
 																		<span class="summary">
-																			<span class="text" id="{{message.id}}">
+																			<span class="text" id="{{conversation.id}}">
 																				{{conversation.subject}}
 																			</span>
 																		</span>
@@ -256,7 +257,7 @@
 																		{% endif %}
 																	{% endif %}
 																	
-																	<div class="hide message-content" id="id-message-content">
+																	<div class="hide message-content {{conversation.id}}" id="id-message-content{{conversation.id}}">
 																	{% for message in conversation.messages %}
 																		<div class="message-header clearfix">
 																			<div class="pull-left">
@@ -300,7 +301,7 @@
 																	</div><!-- /.message-content -->
 																
 
-																<form id="id-message-form" class="hide form-horizontal message-form col-xs-12" method="post">
+																<form id="form{{conversation.id}}" class="hide form-horizontal message-form col-xs-12" method="post">
 																{% set sentTo = [] %} <!-- Template scope doesn't let you change value inside loops -->
 																{% for user in conversation.users %}
 																	{% if user != g.user %}
@@ -320,7 +321,7 @@
 																		<div class="space"></div>
 																	
 																	<span class="inline btn-send-message">
-																		<button type="submit" class="btn btn-sm btn-primary no-border" id="submit">
+																		<button type="submit" class="btn btn-sm btn-primary no-border submit">
 																			<span class="bigger-110">Send</span>
 
 																			<i class="icon-arrow-right icon-on-right"></i>

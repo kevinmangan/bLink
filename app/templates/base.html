@@ -381,7 +381,7 @@
                 $('#inbox-tabs a[data-toggle="tab"]').on('show.bs.tab', function (e) {
                     var currentTab = $(e.target).data('target');
                     if(currentTab == 'write') {
-                        Inbox.show_form();
+                        //Inbox.show_form();
                     }
                     else {
                         if(prevTab == 'write')
@@ -447,10 +447,12 @@
                     $('.message-inline-open').removeClass('message-inline-open').find('.message-content').remove();
             
                     var message_list = $(this).closest('.message-list');
-            
+                    
+                    var id = $(this).attr('id');
+
                     //some waiting
                     setTimeout(function() {
-            
+                        
                         //hide everything that is after .message-list (which is either .message-content or .message-form)
                         //message_list.next().addClass('hide');
                         $('.message-container').find('.message-loading-overlay').remove();
@@ -469,15 +471,15 @@
             
                         
                         //move .message-content next to .message-list and hide .message-list
-                        message_list.addClass('hide').after($('.message-content')).next().removeClass('hide');
-            
+                        message_list.addClass('hide').after($('#id-message-content' + id)).next().removeClass('hide');
+
                         //add scrollbars to .message-body
-                        $('.message-content .message-body').slimScroll({
+                        $('#message-content' + id + ' .message-body').slimScroll({
                             height: 200,
                             railVisible:true
                         });
 
-                        Inbox.show_form();
+                        Inbox.show_form(id);
             
                     }, 500 + parseInt(Math.random() * 500));
 
@@ -584,8 +586,8 @@
                 }
             
                 //show write mail form
-                Inbox.show_form = function() {
-                    if($('.message-form').is(':visible')) return;
+                Inbox.show_form = function(id) {
+                    if($('#form' + id).is(':visible')) return;
                     if(!form_initialized) {
                         initialize_form();
                     }
@@ -601,7 +603,7 @@
                         
                         $('.message-list').addClass('hide');
                         $('.message-footer').addClass('hide');
-                        $('.message-form').removeClass('hide').insertAfter('.message-list-container');
+                        $('#form' + id).removeClass('hide').insertAfter('.message-list-container');
                         
                         $('.message-navbar').addClass('hide');
                         $('#id-message-new-navbar').removeClass('hide');
@@ -610,7 +612,7 @@
                         //reset form??
                         $('.message-form .wysiwyg-editor').empty();
                         
-                        $('.message-form').get(0).reset();
+                        $('#form' + id).get(0).reset();
                         
                    
                 }
@@ -648,13 +650,13 @@
                 }//initialize_form
             
             
-                $('#submit').on('click', function() {
+                $('.submit').on('click', function() {
 
                     $('<input>').attr({
                         type: 'hidden',
                         name: 'body',
                         value: $(this).closest('form').find('.wysiwyg-editor').cleanHtml()
-                    }).appendTo('form');
+                    }).appendTo($(this).closest('form'));
                 });
             
             });
