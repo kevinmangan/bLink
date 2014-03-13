@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Meta, title, CSS, favicons, etc. -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	
+	<title>
+		
+		Business Link
+		
+	</title>
+	
+	<!-- Bootstrap core CSS -->
+	<link href="../static/rocket/assets/css/bootstrap.min.css" rel="stylesheet">
+	
+	<!-- Fonts -->
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,400italic,700italic' rel='stylesheet' type='text/css'>
+	
+	<!-- Rocket extras -->
+	<link href="../static/rocket/assets/css/animate.css" rel="stylesheet">
+	<link href="../static/rocket/assets/css/prettyPhoto.css" rel="stylesheet">
+	<link href="../static/rocket/assets/css/style.css" rel="stylesheet">
+	<!--[if lt IE 9]><script src="assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+	
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		  <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+		  <![endif]-->
+		  
+		  <!-- Favicons -->
+		  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../docs-assets/ico/apple-touch-icon-144-precomposed.png">
+		  <link rel="shortcut icon" href="../docs-assets/ico/favicon.png">
+		</head>
+		<body>
+			
+			<!-- Start Rocket -->
+			<!-- ********************* -->
+			
+	<!-- Parallax Background
+	================================================== -->
+	<!-- image is set in the CSS as a background image -->
+	<div id="parallax"></div>
+	<!-- End Parallax Background
+	================================================== -->
+	
+	<!-- Start Header
+	================================================== -->
+	<header id="header" class="navbar navbar-inverse navbar-fixed-top" role="banner">
+		<div class="container">
+			<div class="navbar-header">
+				<button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<!-- Your Logo -->
+				<a href="index" class="navbar-brand"><img class="header_logo" src="../static/rocket/demo/logo_blink_main.png" alt="" /></a>
+			</div>
+			<!-- Start Navigation -->
+			<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+				<ul class="nav navbar-nav">
+					<li>
+						<a href="index#hero">Home</a>
+					</li>
+					<li>
+						<a href="index#features">Features</a>
+					</li>
+			<!--<li>
+			  <a href="#gallery">Features</a>
+			</li>-->
+			<li>
+				<a href="index#text">About</a>
+			</li>
+			<li>
+				<a href="index#testimonials">Testimonials</a>
+			</li>
+			<!-- <li>
+			  <a href="#newsletter">Subscribe</a>
+			</li> -->
+		</ul>
+		<ul class="nav navbar-nav navbar-right hidden-sm">
+			<li>
+				<button type="button" class="btn btn-primary" onclick="location.href='index#login_container'">Log in</button>
+			</li>
+			<li>
+				<button type="button" class="btn btn-primary" id="btn-signup" onclick="location.href='index#nsignup'">Sign up</button> 
+			</li>
+		</ul>
+	</nav>
+</div>
+</header>
+	<!-- ==================================================
+	End Header -->
+
+	<!-- Start Flash_Message Block
+	================================================== -->
+	<section id="error" class="section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-5 col-sm-5">
+					<div class="content-block animate" data-animate="fadeInLeft" style="margin-bottom: 50px;">
+						<h1>Error:</h1>
+						<p class="lead">{{error}}</p>
+						<button class="btn btn-md btn-primary" onclick="location.href='index'">Try again</button>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</section>
+	
+	
+	<!-- Start Testimonials Block
+	================================================== -->
+	<section id="testimonials" class="section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div id="Carousel" class="carousel slide">
+						<ol class="carousel-indicators">
+							<li data-target="#Carousel" data-slide-to="0" class="active"></li>
+							<li data-target="#Carousel" data-slide-to="1"></li>
+							<li data-target="#Carousel" data-slide-to="2"></li>
+						</ol>
+						
+						<div class="carousel-inner">
+							<div class="item active animate" data-animate="fadeInRight">
+								<blockquote>
+									<p class="lead">Connecting with alumnae from our school will facilitate my ability to get good jobs, make deals and start succesfull ventures in the future.</p>
+									<small>Current <cite title="Source Title">MBA student</cite></small>
+								</blockquote>					            </div>
+								<div class="item animate" data-animate="fadeInRight">
+									<blockquote>
+										<p class="lead">Students at other business schools are my real network, it is more about the area you live in rather than the school you attended.</p>
+										<small>Current <cite title="Source Title">MBA student</cite></small>
+									</blockquote>
+								</div>
+								<div class="item animate" data-animate="fadeInRight">
+									<blockquote>
+										<p class="lead">Alumni from other top business schools have established themselves in various industries and might be very beneficial for recruiting or as business contacts.</p>
+										<small>Current <cite title="Source Title">MBA student</cite></small>
+									</blockquote>
+								</div>
+							</div>
+							
+							<a class="left carousel-control" href="#Carousel" data-slide="prev">
+								<span class="glyphicon glyphicon-chevron-left"></span>
+							</a>
+							<a class="right carousel-control" href="#Carousel" data-slide="next">
+								<span class="glyphicon glyphicon-chevron-right"></span>
+							</a>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</section>
+	<!-- ==================================================
+	End Slider Blcok -->
+
+	
+	<!-- Bootstrap core JavaScript
+	================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="../static/rocket/assets/js/jquery-1.10.2.min.js"></script>
+	<script src="../static/rocket/assets/js/bootstrap.js"></script>
+	<script src="../static/rocket/assets/js/waypoints.min.js"></script>
+	<script src="../static/rocket/assets/js/jquery.scrollto.min.js"></script>
+	<script src="../static/rocket/assets/js/jquery.localscroll.min.js"></script>
+	<script src="../static/rocket/assets/js/jquery.prettyPhoto.js"></script>
+	<script src="../static/rocket/assets/js/scripts.js"></script>
+	
+	
+	<!-- ********************* -->
+	<!-- Start Rocket -->
+	
+</body>
+</html>

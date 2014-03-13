@@ -1,0 +1,13 @@
+<html>
+<head>
+</head>
+<body>
+<h1>Users</h1>
+[{{users}}]
+<br>
+{% for user in users %}
+    <span style="color: red;">[{{user.id}}, {{user.username}}, {{user.firstName}}, {{user.lastName}}, {{user.email}}, {{user.network}}, {{user.password}}]</span> <br>
+{% endfor %}
+</body>
+</html>
+

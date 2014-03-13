@@ -59,7 +59,7 @@
 					<span class="icon-bar"></span>
 				</button>
 				<!-- Your Logo -->
-				<a href="index.html" class="navbar-brand"><img class="header_logo" src="../static/rocket/demo/logo_blink_main.png" alt="" /></a>
+				<a href="index" class="navbar-brand"><img class="header_logo" src="../static/rocket/demo/logo_blink_main.png" alt="" /></a>
 			</div>
 			<!-- Start Navigation -->
 			<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
@@ -88,7 +88,7 @@
 				<button type="button" class="btn btn-primary" onclick="location.href='#login_container'">Log in</button>
 			</li>
 			<li>
-				<button type="button" class="btn btn-primary" id="btn-signup" onclick="location.href='#newsletter'">Sign up</button> 
+				<button type="button" class="btn btn-primary" id="btn-signup" onclick="location.href='#signup'">Sign up</button> 
 			</li>
 		</ul>
 	</nav>
@@ -107,7 +107,7 @@
 					<div class="blox-element animate" data-animate="fadeInDown">
 						<h1><strong>Business Link</strong></h1>
 						<p class="lead">B-Link is an exclusive platform designed to capture the value of your MBA Network, and extend it to the other top business schools, long after your graduation.</p>
-						<p><a class="btn btn-primary btn-md btn-rocket btn-primary" role="button" href="#newsletter">Sign Up</a> <a class="btn btn-primary btn-md btn-rocket btn-primary" role="button" href="#text">Explore</a></p>
+						<p><a class="btn btn-primary btn-md btn-rocket btn-primary" role="button" href="#signup">Sign Up</a> <a class="btn btn-primary btn-md btn-rocket btn-primary" role="button" href="#text">Explore</a></p>
 					</div>
 				</div>
 			</div>
@@ -343,53 +343,43 @@
 	
 	<!-- Start Newsletter Block
 	================================================== -->
-	<section id="newsletter" class="section">
-		<div class="container">
+	<section id="signup" class="section">
+		<div class="container" style=" text-align:center">
 			<div class="row">
 				<div class="col-md-12">
-					<h1>B-Linked. Become an exclsuive Business Link member</h1>
+					<h1>B-Linked. Become an exclusive Business Link member</h1>
 					<p class="lead">Join thousands of awesome people, there's only one thing to do. Sign up!</p>
-					<form role="form" action="signup" method="post" name="signup">
-						<div class="input-group">
-							<!-- <input type="text" class="form-control input-lg" placeholder="Enter email"> <br>
-							<br> -->
+					<form role="form" action="signup" method="post" name="signup" >
+						<div class="input-group" style="margin-right: auto; margin-left: auto;" >
 							{{form2.hidden_tag()}}
-
 							{{form2.firstName(size=80, class_="form-control input-lg", placeholder="First name")}}<br>
 							{% for error in form2.errors.firstName %}
 							<span style="color: red;">[{{error}}]</span>
 							{% endfor %}<br>
-
 							{{form2.lastName(size=80, class_="form-control input-lg", placeholder="Last name")}}<br>
 							{% for error in form2.errors.lastName %}
 							<span style="color: red;">[{{error}}]</span>
 							{% endfor %}<br>
-
 							{{form2.location(size=80, class_="form-control input-lg", placeholder="Current location")}}<br>
 							{% for error in form2.errors.location %}
 							<span style="color: red;">[{{error}}]</span>
 							{% endfor %}<br>
-
 							{{form2.email(size=80, class_="form-control input-lg", placeholder="School email")}}<br>
 							{% for error in form2.errors.email %}
 							<span style="color: red;">[{{error}}]</span>
 							{% endfor %}<br>
-
 							{{form2.username(size=80, class_="form-control input-lg", placeholder="Username")}}<br>
 							{% for error in form2.errors.username %}
 							<span style="color: red;">[{{error}}]</span>
 							{% endfor %}<br>
-
 							{{form2.password(size=80, class_="form-control input-lg", placeholder="Password")}}<br>
 							{% for error in form2.errors.password %}
 							<span style="color: red;">[{{error}}]</span>
 							{% endfor %}<br>
-
 							{{form2.network(class_="form-control input-lg")}}<br>
 							{% for error in form2.errors.network %}
 							<span style="color: red;">[{{error}}]</span>
 							{% endfor %}<br>
-
 							{{form2.class_year(size=80, class_="form-control input-lg", placeholder="MBA class year")}}<br>
 							{% for error in form2.errors.class_year %}
 							<span style="color: red;">[{{error}}]</span>
@@ -418,11 +408,11 @@
 						<div class="input-group" style="margin-right: auto; margin-left: auto;">
 							{{form1.hidden_tag()}}
 							{{form1.username(size=80, class_="form-control input-lg", placeholder="Username")}}<br>
-							{% for error in form2.errors.username %}
+							{% for error in form1.errors.username %}
 							<span style="color: red;">[{{error}}]</span>
 							{% endfor %}
 							{{form1.password(size=80, class_="form-control input-lg", placeholder="Password")}}<br>
-							{% for error in form2.errors.password %}
+							{% for error in form1.errors.password %}
 							<span style="color: red;">[{{error}}]</span>
 							{% endfor %}
 							<span class="input-lg" style="display:block">

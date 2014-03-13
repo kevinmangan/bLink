@@ -32,17 +32,21 @@ def login():
 		username = loginForm.username.data
 		password = loginForm.password.data
 		if username is None or password is None:
-			flash('Invalid login. Please try again.')
-			return redirect(url_for('index'))
+			#flash('Invalid login. Please try again.')
+			return render_template("error.html", error='Invalid login. Please try again.')
+			#return redirect(url_for('index'))
 		user = User.query.filter_by(username = username).first()
 		if user is None:
-			flash('That username does not exist. Please try again.')
-			return redirect(url_for('index'))
+			#flash('That username does not exist. Please try again.')
+			return render_template("error.html", error='That username does not exist. Please try again.')
+			#return redirect(url_for('index'))
 		if bcrypt.check_password_hash(user.password, password) is False:
-			flash('Invalid Login. Please try again.')
-			return redirect(url_for('index'))
+			#flash('Invalid login. Please try again.')
+			return render_template("error.html", error='Invalid login. Please try again.')
+			#return redirect(url_for('index'))
 		login_user(user, remember=True)
 		return redirect(request.args.get("next") or url_for("user", username=user.username, user=user))
+		#return redirect(url_for("user", username=user.username, user=user))
 	return render_template("index.html", title = 'Sign In', form1=loginForm, form2=signupForm)
 
 @app.route("/signup", methods=["POST"])
@@ -62,16 +66,19 @@ def signup():
 			network = signupForm.network.data
 			location = signupForm.location.data
 			class_year = signupForm.class_year.data
+
 			
 			user = User.query.filter_by(email = email).first() # Check if that email already exists
 			if user is not None:
-				flash('That email is already in use')
-				return redirect(url_for('index'))
+				#flash('That email is already in use')
+				return render_template("error.html", error='That email is already in use')
+				#return redirect(url_for('index'))
 			
 			user = User.query.filter_by(username = username).first() # Check if that username already exists
 			if user is not None:
-				flash('That username is already in use')
-				return redirect(url_for('index'))
+				#flash('That username is already in use')
+				return render_template("error.html", error='That email is already in use')
+				#return redirect(url_for('index'))
 			
 			# Create the user
 			user = User(username=username, password=password_hash, email=email, firstName=firstName, lastName=lastName, location=location,
@@ -80,6 +87,7 @@ def signup():
 			db.session.commit()
 		login_user(user, remember=True)
 		return redirect(request.args.get("next") or url_for("editProfile", username=user.username, user=user))
+		#return redirect(url_for("editProfile", username=user.username, user=user))
 	return render_template("index.html", title = 'Sign Up', form1=loginForm, form2=signupForm)
 
 @app.route("/logout")
@@ -204,5 +212,16 @@ def like_opportunity():
 	user.like_op(opportunity=opportunity)
 	return jsonify()
 
+# To display error messages (substitute for flashing messages)
+@app.route('/error')
+def error(error='Did you reach this page by mistake?'):
+	return render_template("error.html", error=error)
+
+
+# To view the database elements while in development
+@app.route('/admin_users')
+def admin_users():
+	users = User.query.order_by(User.username)
+	return render_template('admin_users.html', users=users)
 	
 
