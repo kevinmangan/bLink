@@ -4,11 +4,6 @@ import datetime
 from sqlalchemy import desc
 from config import WHOOSH_ENABLED
 
-if WHOOSH_ENABLED:
-    import flask.ext.whooshalchemy as whooshalchemy
-    whooshalchemy.whoosh_index(app, Post)
-
-
 ### Establishes many to many relationship between user and messages
 sent_to_table = db.Table('sent_to_table',
 	db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
