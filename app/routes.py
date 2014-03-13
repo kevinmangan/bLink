@@ -53,7 +53,7 @@ def login():
 def signup():
 	if g.user is not None and g.user.is_authenticated():
 		return redirect(url_for('index'))
-	loginForm = LoginForm
+	#loginForm = LoginForm
 	signupForm = SignupForm()
 	if signupForm.validate_on_submit():
 		username = signupForm.username.data
@@ -88,7 +88,7 @@ def signup():
 		login_user(user, remember=True)
 		return redirect(request.args.get("next") or url_for("editProfile", username=user.username, user=user))
 		#return redirect(url_for("editProfile", username=user.username, user=user))
-	return render_template("index.html", title = 'Sign Up', form1=loginForm, form2=signupForm)
+	return redirect(url_for('index'))
 
 @app.route("/logout")
 @login_required
