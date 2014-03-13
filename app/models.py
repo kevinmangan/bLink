@@ -23,8 +23,8 @@ conversation_table = db.Table('conversation_table',
 class User(db.Model):
 	id = db.Column(db.Integer, primary_key = True)
 	username = db.Column(db.String(64), index = True, unique = True)
-	firstName = db.Column(db.String(64), index = False, unique = True)
-	lastName = db.Column(db.String(64), index = True, unique = True)
+	firstName = db.Column(db.String(64), index = False, unique = False)
+	lastName = db.Column(db.String(64), index = True, unique = False)
 	password = db.Column(db.String(64), index = False, unique = False)
 	email = db.Column(db.String(120), index = True, unique = True)
 	location = db.Column(db.String(120), index = False, unique = False)

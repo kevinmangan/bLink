@@ -85,7 +85,7 @@
 		</ul>
 		<ul class="nav navbar-nav navbar-right hidden-sm">
 			<li>
-				<button type="button" class="btn btn-primary">Log in</button>
+				<button type="button" class="btn btn-primary" onclick="location.href='#login_container'">Log in</button>
 			</li>
 			<li>
 				<button type="button" class="btn btn-primary" id="btn-signup" onclick="location.href='#newsletter'">Sign up</button> 
@@ -354,6 +354,7 @@
 							<!-- <input type="text" class="form-control input-lg" placeholder="Enter email"> <br>
 							<br> -->
 							{{form2.hidden_tag()}}
+
 							{{form2.firstName(size=80, class_="form-control input-lg", placeholder="First name")}}<br>
 							{% for error in form2.errors.firstName %}
 							<span style="color: red;">[{{error}}]</span>
@@ -394,7 +395,7 @@
 							<span style="color: red;">[{{error}}]</span>
 							{% endfor %}<br>
 							<span class="input-lg" style="display:block">
-								<button class="btn btn-lg btn-default" type="button">Sign Up</button>
+								<input type="submit" value="Sign Up" class="btn btn-lg btn-default" type="button">
 							</span>
 						</div>
 					</form>
@@ -425,7 +426,7 @@
 							<span style="color: red;">[{{error}}]</span>
 							{% endfor %}
 							<span class="input-lg" style="display:block">
-								<button class="btn btn-lg btn-default" type="button">Log in</button>
+								<input type="submit" value="Log In" class="btn btn-lg btn-default" type="button">
 							</span>
 						</div>
 					</form>
