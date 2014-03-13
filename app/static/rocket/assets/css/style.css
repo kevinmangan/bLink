@@ -250,7 +250,16 @@ label {
 .input-group {
 	margin-bottom: 10px;
 }
+.input-group-btn {
+	width: 200px;
+	height: 40px;
+}
+
+input {
+	display: block;
+}
 .form-control {
+	display: block;
 	font-weight: 300;
 	border-color: #ecf0f1;
 	background-color: #ecf0f1;
@@ -551,6 +560,18 @@ img.header_logo {
 	margin: 0 25%;
 }
 
+/*	Login
+	==================================================*/ 
+#login_container {
+	border-top: 1px solid #ececec;
+	text-align: center;
+	margin-right: auto; margin-left: auto;
+}
+#login_container form {
+	width: 50%;
+	margin: 0 25%;
+}
+
 /*	Responsive
 	==================================================*/ 
 
@@ -562,7 +583,7 @@ img.header_logo {
 		max-width: 690px;
 	}
 	.section {
-		padding-top: 80px;
+		padding-top: 50px;
 		padding-bottom: 80px;
 	}
 	.service-block, .img-responsive, .carousel, .content-block {

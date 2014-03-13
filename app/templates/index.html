@@ -14,15 +14,15 @@
 	</title>
 	
 	<!-- Bootstrap core CSS -->
-	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+	<link href="../static/rocket/assets/css/bootstrap.min.css" rel="stylesheet">
 	
 	<!-- Fonts -->
 	<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,400italic,700italic' rel='stylesheet' type='text/css'>
 	
 	<!-- Rocket extras -->
-	<link href="assets/css/animate.css" rel="stylesheet">
-	<link href="assets/css/prettyPhoto.css" rel="stylesheet">
-	<link href="assets/css/style.css" rel="stylesheet">
+	<link href="../static/rocket/assets/css/animate.css" rel="stylesheet">
+	<link href="../static/rocket/assets/css/prettyPhoto.css" rel="stylesheet">
+	<link href="../static/rocket/assets/css/style.css" rel="stylesheet">
 	<!--[if lt IE 9]><script src="assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 	
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -59,7 +59,7 @@
 					<span class="icon-bar"></span>
 				</button>
 				<!-- Your Logo -->
-				<a href="index.html" class="navbar-brand"><img class="header_logo" src="demo/logo_blink_main.png" alt="" /></a>
+				<a href="index.html" class="navbar-brand"><img class="header_logo" src="../static/rocket/demo/logo_blink_main.png" alt="" /></a>
 			</div>
 			<!-- Start Navigation -->
 			<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
@@ -266,7 +266,7 @@
 	</section> -->
 	
 	<!-- ==================================================
-	End Gallery Blcok -->
+	End Gallery Block -->
 	
 	<!-- <hr /> -->
 	
@@ -276,7 +276,7 @@
 		<div class="container">
 			<div class="row">
 				
-				<div class="col-md-7 col-sm-7"><img class="animate img-responsive" data-animate="fadeInRight" src="demo/about_img1.jpg" alt=""/></div>
+				<div class="col-md-7 col-sm-7"><img class="animate img-responsive" data-animate="fadeInRight" src="../static/rocket/demo/about_img1.jpg" alt=""/></div>
 				<div class="col-md-5 col-sm-5">
 					<div class="content-block animate" data-animate="fadeInLeft" style="margin-bottom: 50px;">
 						<h1>About Us</h1>
@@ -291,9 +291,9 @@
 	</section>
 	
 	<!-- ==================================================
-	End Text Blcok -->
+	End Text Block -->
 	
-	<!-- Start Newsletter Block
+	<!-- Start Testimonials Block
 	================================================== -->
 	<section id="testimonials" class="section">
 		<div class="container">
@@ -351,93 +351,102 @@
 					<p class="lead">Join thousands of awesome people, there's only one thing to do. Sign up!</p>
 					<form role="form" action="signup" method="post" name="signup">
 						<div class="input-group">
+							<!-- <input type="text" class="form-control input-lg" placeholder="Enter email"> <br>
+							<br> -->
 							{{form2.hidden_tag()}}
-							<input type="text" class="form-control input-lg" placeholder="Enter email"> <br>
-							<span class="input-group-btn">
+							{{form2.firstName(size=80, class_="form-control input-lg", placeholder="First name")}}<br>
+							{% for error in form2.errors.firstName %}
+							<span style="color: red;">[{{error}}]</span>
+							{% endfor %}<br>
+
+							{{form2.lastName(size=80, class_="form-control input-lg", placeholder="Last name")}}<br>
+							{% for error in form2.errors.lastName %}
+							<span style="color: red;">[{{error}}]</span>
+							{% endfor %}<br>
+
+							{{form2.location(size=80, class_="form-control input-lg", placeholder="Current location")}}<br>
+							{% for error in form2.errors.location %}
+							<span style="color: red;">[{{error}}]</span>
+							{% endfor %}<br>
+
+							{{form2.email(size=80, class_="form-control input-lg", placeholder="School email")}}<br>
+							{% for error in form2.errors.email %}
+							<span style="color: red;">[{{error}}]</span>
+							{% endfor %}<br>
+
+							{{form2.username(size=80, class_="form-control input-lg", placeholder="Username")}}<br>
+							{% for error in form2.errors.username %}
+							<span style="color: red;">[{{error}}]</span>
+							{% endfor %}<br>
+
+							{{form2.password(size=80, class_="form-control input-lg", placeholder="Password")}}<br>
+							{% for error in form2.errors.password %}
+							<span style="color: red;">[{{error}}]</span>
+							{% endfor %}<br>
+
+							{{form2.network(class_="form-control input-lg")}}<br>
+							{% for error in form2.errors.network %}
+							<span style="color: red;">[{{error}}]</span>
+							{% endfor %}<br>
+
+							{{form2.class_year(size=80, class_="form-control input-lg", placeholder="MBA class year")}}<br>
+							{% for error in form2.errors.class_year %}
+							<span style="color: red;">[{{error}}]</span>
+							{% endfor %}<br>
+							<span class="input-lg" style="display:block">
 								<button class="btn btn-lg btn-default" type="button">Sign Up</button>
 							</span>
 						</div>
 					</form>
-					<form action="signup" method="post" name="signup">
-						{{form2.hidden_tag()}}
-						<p>
-							Please enter your username:<br>
-							{{form2.username(size=80)}}<br>
-							{% for error in form2.errors.username %}
-							<span style="color: red;">[{{error}}]</span>
-							{% endfor %}<br>
-						</p>
-						<p>
-							Please enter your password:<br>
-							{{form2.password(size=80)}}<br>
-							{% for error in form2.errors.password %}
-							<span style="color: red;">[{{error}}]</span>
-							{% endfor %}<br>
-						</p>
-						<p>
-							Please enter your First Name:<br>
-							{{form2.firstName(size=80)}}<br>
-							{% for error in form2.errors.firstName %}
-							<span style="color: red;">[{{error}}]</span>
-							{% endfor %}<br>
-						</p>
-						<p>
-							Please enter your Last Name:<br>
-							{{form2.lastName(size=80)}}<br>
-							{% for error in form2.errors.lastName %}
-							<span style="color: red;">[{{error}}]</span>
-							{% endfor %}<br>
-						</p>
-						<p>
-							Please enter your email:<br>
-							{{form2.email(size=80)}}<br>
-							{% for error in form2.errors.email %}
-							<span style="color: red;">[{{error}}]</span>
-							{% endfor %}<br>
-						</p>
-						<p>
-							Please enter your Location:<br>
-							{{form2.location(size=80)}}<br>
-							{% for error in form2.errors.location %}
-							<span style="color: red;">[{{error}}]</span>
-							{% endfor %}<br>
-						</p>
-						<p>
-							Please enter your school:<br>
-							{{form2.network()}}<br>
-							{% for error in form2.errors.network %}
-							<span style="color: red;">[{{error}}]</span>
-							{% endfor %}<br>
-						</p>
-						<p>
-							Please enter your MBA Class Year:<br>
-							{{form2.class_year(size=80)}}<br>
-							{% for error in form2.errors.class_year %}
-							<span style="color: red;">[{{error}}]</span>
-							{% endfor %}<br>
-						</p>
-						<p>{{form2.remember_me}} Remember Me</p>
-						<p><input type="submit" value="Sign Up"></p>
-
 					</div>
 				</div>
 			</div>
 		</section>
 	<!-- ==================================================
 	End Newsletter Blcok -->
-	
+
+	<!-- Start Login_container Block
+	================================================== -->
+	<section id="login_container" class="section">
+		<div class="container" style=" text-align:center;">
+			<div class="row">
+				<div class="col-md-12">
+					<h1>Log in to B-Link
+					<p class="lead"></p>
+					<form role="form" action="login" method="post" name="login" >
+						<div class="input-group" style="margin-right: auto; margin-left: auto;">
+							{{form1.hidden_tag()}}
+							{{form1.username(size=80, class_="form-control input-lg", placeholder="Username")}}<br>
+							{% for error in form2.errors.username %}
+							<span style="color: red;">[{{error}}]</span>
+							{% endfor %}
+							{{form1.password(size=80, class_="form-control input-lg", placeholder="Password")}}<br>
+							{% for error in form2.errors.password %}
+							<span style="color: red;">[{{error}}]</span>
+							{% endfor %}
+							<span class="input-lg" style="display:block">
+								<button class="btn btn-lg btn-default" type="button">Log in</button>
+							</span>
+						</div>
+					</form>
+					</div>
+				</div>
+			</div>
+		</section>
+	<!-- ==================================================
+	End login Block -->
 	
 	
 	<!-- Bootstrap core JavaScript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="assets/js/jquery-1.10.2.min.js"></script>
-	<script src="assets/js/bootstrap.js"></script>
-	<script src="assets/js/waypoints.min.js"></script>
-	<script src="assets/js/jquery.scrollto.min.js"></script>
-	<script src="assets/js/jquery.localscroll.min.js"></script>
-	<script src="assets/js/jquery.prettyPhoto.js"></script>
-	<script src="assets/js/scripts.js"></script>
+	<script src="../static/rocket/assets/js/jquery-1.10.2.min.js"></script>
+	<script src="../static/rocket/assets/js/bootstrap.js"></script>
+	<script src="../static/rocket/assets/js/waypoints.min.js"></script>
+	<script src="../static/rocket/assets/js/jquery.scrollto.min.js"></script>
+	<script src="../static/rocket/assets/js/jquery.localscroll.min.js"></script>
+	<script src="../static/rocket/assets/js/jquery.prettyPhoto.js"></script>
+	<script src="../static/rocket/assets/js/scripts.js"></script>
 	
 	
 	<!-- ********************* -->

@@ -14,7 +14,7 @@ class SignupForm(Form):
     lastName = TextField('lastName', validators = [Required()])
     email = TextField('email', validators = [Required()])
     location = TextField('location', validators = [Required()])
-    network = SelectField('network', choices=[('INSEAD', 'INSEAD'), ('Columbia Business School', 'Columbia Business School'), 
+    network = SelectField('network', choices=[('','Choose your school'), ('INSEAD', 'INSEAD'), ('Columbia Business School', 'Columbia Business School'), 
         ('London Business School', 'London Business School'),
      ('Harvard Business School', 'Harvard Business School'), ('Stanford Graduate School of Business', 'Stanford Graduate School of Business'),
       ('University of Pennsylvania: Wharton', 'University of Pennsylvania: Wharton')], validators = [Required()])
