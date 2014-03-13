@@ -8,7 +8,7 @@ class LoginForm(Form):
     remember_me = BooleanField('remember_me', default = False)
 
 class SignupForm(Form):
-    username = TextField('username', validators = [Required()])
+    username = TextField('username', validators = [Required()], description="class='form-control input-lg' placeholder='Enter email'")
     password = PasswordField('password', validators = [Required()])
     firstName = TextField('firstName', validators = [Required()])
     lastName = TextField('lastName', validators = [Required()])

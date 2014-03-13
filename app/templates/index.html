@@ -1,91 +1,447 @@
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-</head>
-<body>
-<h1>Log In</h1>
-<form action="login" method="post" name="login">
-    {{form1.hidden_tag()}}
-    <p>
-        Please enter your username:<br>
-        {{form1.username(size=80)}}<br>
-        {% for error in form1.errors.username %}
-        <span style="color: red;">[{{error}}]</span>
-        {% endfor %}<br>
-    </p>
-    <p>
-        Please enter your password:<br>
-        {{form1.password(size=80)}}<br>
-        {% for error in form1.errors.password %}
-        <span style="color: red;">[{{error}}]</span>
-        {% endfor %}<br>
-    </p>
-    <p>{{form1.remember_me}} Remember Me</p>
-    <p><input type="submit" value="Log In"></p>
-</form>
-<br><br>
-<h1>MBA Student Sign Up</h1>
-<form action="signup" method="post" name="signup">
-    {{form2.hidden_tag()}}
-    <p>
-        Please enter your username:<br>
-        {{form2.username(size=80)}}<br>
-        {% for error in form2.errors.username %}
-        <span style="color: red;">[{{error}}]</span>
-        {% endfor %}<br>
-    </p>
-    <p>
-        Please enter your password:<br>
-        {{form2.password(size=80)}}<br>
-        {% for error in form2.errors.password %}
-        <span style="color: red;">[{{error}}]</span>
-        {% endfor %}<br>
-    </p>
-    <p>
-        Please enter your First Name:<br>
-        {{form2.firstName(size=80)}}<br>
-        {% for error in form2.errors.firstName %}
-        <span style="color: red;">[{{error}}]</span>
-        {% endfor %}<br>
-    </p>
-    <p>
-        Please enter your Last Name:<br>
-        {{form2.lastName(size=80)}}<br>
-        {% for error in form2.errors.lastName %}
-        <span style="color: red;">[{{error}}]</span>
-        {% endfor %}<br>
-    </p>
-    <p>
-        Please enter your email:<br>
-        {{form2.email(size=80)}}<br>
-        {% for error in form2.errors.email %}
-        <span style="color: red;">[{{error}}]</span>
-        {% endfor %}<br>
-    </p>
-    <p>
-        Please enter your Location:<br>
-        {{form2.location(size=80)}}<br>
-        {% for error in form2.errors.location %}
-        <span style="color: red;">[{{error}}]</span>
-        {% endfor %}<br>
-    </p>
-    <p>
-        Please enter your school:<br>
-        {{form2.network()}}<br>
-        {% for error in form2.errors.network %}
-        <span style="color: red;">[{{error}}]</span>
-        {% endfor %}<br>
-    </p>
-    <p>
-        Please enter your MBA Class Year:<br>
-        {{form2.class_year(size=80)}}<br>
-        {% for error in form2.errors.class_year %}
-        <span style="color: red;">[{{error}}]</span>
-        {% endfor %}<br>
-    </p>
-    <p>{{form2.remember_me}} Remember Me</p>
-    <p><input type="submit" value="Sign Up"></p>
-</form>
+	<!-- Meta, title, CSS, favicons, etc. -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	
+	<title>
+		
+		Business Link
+		
+	</title>
+	
+	<!-- Bootstrap core CSS -->
+	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+	
+	<!-- Fonts -->
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,400italic,700italic' rel='stylesheet' type='text/css'>
+	
+	<!-- Rocket extras -->
+	<link href="assets/css/animate.css" rel="stylesheet">
+	<link href="assets/css/prettyPhoto.css" rel="stylesheet">
+	<link href="assets/css/style.css" rel="stylesheet">
+	<!--[if lt IE 9]><script src="assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+	
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		  <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+		  <![endif]-->
+		  
+		  <!-- Favicons -->
+		  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../docs-assets/ico/apple-touch-icon-144-precomposed.png">
+		  <link rel="shortcut icon" href="../docs-assets/ico/favicon.png">
+		</head>
+		<body>
+			
+			<!-- Start Rocket -->
+			<!-- ********************* -->
+			
+	<!-- Parallax Background
+	================================================== -->
+	<!-- image is set in the CSS as a background image -->
+	<div id="parallax"></div>
+	<!-- End Parallax Background
+	================================================== -->
+	
+	<!-- Start Header
+	================================================== -->
+	<header id="header" class="navbar navbar-inverse navbar-fixed-top" role="banner">
+		<div class="container">
+			<div class="navbar-header">
+				<button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<!-- Your Logo -->
+				<a href="index.html" class="navbar-brand"><img class="header_logo" src="demo/logo_blink_main.png" alt="" /></a>
+			</div>
+			<!-- Start Navigation -->
+			<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+				<ul class="nav navbar-nav">
+					<li>
+						<a href="#hero">Home</a>
+					</li>
+					<li>
+						<a href="#features">Features</a>
+					</li>
+			<!--<li>
+			  <a href="#gallery">Features</a>
+			</li>-->
+			<li>
+				<a href="#text">About</a>
+			</li>
+			<li>
+				<a href="#testimonials">Testimonials</a>
+			</li>
+			<!-- <li>
+			  <a href="#newsletter">Subscribe</a>
+			</li> -->
+		</ul>
+		<ul class="nav navbar-nav navbar-right hidden-sm">
+			<li>
+				<button type="button" class="btn btn-primary">Log in</button>
+			</li>
+			<li>
+				<button type="button" class="btn btn-primary" id="btn-signup" onclick="location.href='#newsletter'">Sign up</button> 
+			</li>
+		</ul>
+	</nav>
+</div>
+</header>
+	<!-- ==================================================
+	End Header -->
+	
+	<!-- Start Hero Section
+	================================================== -->
+	<section id="hero" class="section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6"></div>
+				<div class="col-md-6">
+					<div class="blox-element animate" data-animate="fadeInDown">
+						<h1><strong>Business Link</strong></h1>
+						<p class="lead">B-Link is an exclusive platform designed to capture the value of your MBA Network, and extend it to the other top business schools, long after your graduation.</p>
+						<p><a class="btn btn-primary btn-md btn-rocket btn-primary" role="button" href="#newsletter">Sign Up</a> <a class="btn btn-primary btn-md btn-rocket btn-primary" role="button" href="#text">Explore</a></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- ================================================== 
+	End Hero -->
+	
+	<!-- Start Features
+	================================================== -->
+	<section id="features" class="section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<!-- Title -->
+					<div class="overview">
+						<h1>An exclusive business school community</h1>
+						<p class="lead">Connecting the top-tier MBA community</p>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6">
+					<div class="service-block animate" data-animate="fadeInRight">
+						<span class="glyphicon glyphicon-tree-conifer"></span>
+						<h3>Network</h3>
+						<p>Keep in touch with your B-schoolers, on a platform which is as exclusive as your B-school </p>
+						<button type="button" class="btn btn-primary btn-md btn-rocket btn-rocket-default">Learn More</button>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6">
+					<div class="service-block animate" data-animate="flipInY">
+						<span class="glyphicon glyphicon-stats"></span>
+						<h3>Seek</h3>
+						<p>Seek returns from your exclusive network by exlporing new opportunities, Posted by your peers and MBA recruiters alike </p>
+						<button type="button" class="btn btn-primary btn-md btn-rocket btn-rocket-default">Learn More</button>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6">
+					<div class="service-block animate" data-animate="fadeInLeft">
+						<span class="glyphicon glyphicon-tree-deciduous"></span>
+						<h3>Recruit</h3>
+						<p>Find your exclusive employee through our exclusive network. Say goodbye to hundreds of junk resumes</p>
+						<button type="button" class="btn btn-primary btn-md btn-rocket btn-rocket-default">Learn More</button>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-6">
+					<div class="service-block animate" data-animate="flipInX">
+						<span class="glyphicon glyphicon-heart"></span>
+						<h3>Reward</h3>
+						<p>Become a B-Link member and enjoy discounts and rewards which are as exclusive as your MBA community </p>
+						<button type="button" class="btn btn-primary btn-md btn-rocket btn-rocket-default">Learn More</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<!-- ==================================================
+	End Features -->
+	
+	<!-- Start Image Block
+	================================================== -->
+	<!-- <section id="image" class="section" style="background-color:#ecf0f1; padding-bottom: 0;">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-5 col-sm-5">
+					<div class="content-block animate" data-animate="fadeInLeft" style="margin-bottom: 50px;">
+						<h1>Super Animations</h1>
+						<p class="lead">Animate.css is a bunch of cool, fun, and cross-browser animations for you.</p>
+						<p class="hidden-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lorem quam, adipiscing condimentum tristique vel, eleifend sed turpis. Pellentesque cursus arcu id magna euismod in elementum purus molestie.</p>
+						<button class="btn btn-md btn-primary">Learn More</button>
+						<button class="btn btn-md btn-default">Purchase Now</button>
+					</div>
+				</div>
+				<div class="col-md-7 col-sm-7"><img class="animate img-responsive" data-animate="fadeInRight" src="http://placehold.it/653x491" alt=""/></div>
+			</div>
+		</div>
+	</section> -->
+	
+	<!-- ==================================================
+	End Image Blcok -->
+	
+	<!-- Start Gallery Block
+	================================================== -->
+	<!-- <section id="gallery" class="section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="overview">
+						<h1>Gallery Images</h1>
+						<p class="lead">Collaboratively envisioneer magnetic schemas through synergistic technologies</p>
+					</div>
+				</div>
+				<div class="col-md-3 col-sm-3">
+					<a href="http://placehold.it/263x197" title="This is the description">
+						<img src="http://placehold.it/263x197" alt="Turtle" class="img-rounded image-responsive">
+					</a>
+				</div>
+				<div class="col-md-3 col-sm-3">
+					<a href="http://placehold.it/263x197" title="This is the description">
+						<img src="http://placehold.it/263x197" alt="Turtle" class="img-rounded image-responsive">
+					</a>
+				</div>
+				<div class="col-md-3 col-sm-3">
+					<a href="http://placehold.it/263x197" title="This is the description">
+						<img src="http://placehold.it/263x197" alt="Turtle" class="img-rounded image-responsive">
+					</a>
+				</div>
+				<div class="col-md-3 col-sm-3">
+					<a href="http://placehold.it/263x197" title="This is the description">
+						<img src="http://placehold.it/263x197" alt="Turtle" class="img-rounded image-responsive">
+					</a>
+				</div>
+				<div class="col-md-3 col-sm-3">
+					<a href="http://placehold.it/263x197" title="This is the description">
+						<img src="http://placehold.it/263x197" alt="Turtle" class="img-rounded image-responsive">
+					</a>
+				</div>
+				<div class="col-md-3 col-sm-3">
+					<a href="http://placehold.it/263x197" title="This is the description">
+						<img src="http://placehold.it/263x197" alt="Turtle" class="img-rounded image-responsive">
+					</a>
+				</div>
+				<div class="col-md-3 col-sm-3">
+					<a href="http://placehold.it/263x197" title="This is the description">
+						<img src="http://placehold.it/263x197" alt="Turtle" class="img-rounded image-responsive">
+					</a>
+				</div>
+				<div class="col-md-3 col-sm-3">
+					<a href="http://placehold.it/263x197" title="This is the description">
+						<img src="http://placehold.it/263x197" alt="Turtle" class="img-rounded image-responsive">
+					</a>
+				</div>
+				<div class="col-md-3 col-sm-3">
+					<a href="http://placehold.it/263x197" title="This is the description">
+						<img src="http://placehold.it/263x197" alt="Turtle" class="img-rounded image-responsive">
+					</a>
+				</div>
+				<div class="col-md-3 col-sm-3">
+					<a href="http://placehold.it/263x197" title="This is the description">
+						<img src="http://placehold.it/263x197" alt="Turtle" class="img-rounded image-responsive">
+					</a>
+				</div>
+				<div class="col-md-3 col-sm-3">
+					<a href="http://placehold.it/263x197" title="This is the description">
+						<img src="http://placehold.it/263x197" alt="Turtle" class="img-rounded image-responsive">
+					</a>
+				</div>
+				<div class="col-md-3 col-sm-3">
+					<a href="http://placehold.it/263x197" title="This is the description">
+						<img src="http://placehold.it/263x197" alt="Turtle" class="img-rounded image-responsive">
+					</a>
+				</div>
+				
+			</div>
+		</div>
+	</section> -->
+	
+	<!-- ==================================================
+	End Gallery Blcok -->
+	
+	<!-- <hr /> -->
+	
+	<!-- Start Text Block
+	================================================== -->
+	<section id="text" class="section">
+		<div class="container">
+			<div class="row">
+				
+				<div class="col-md-7 col-sm-7"><img class="animate img-responsive" data-animate="fadeInRight" src="demo/about_img1.jpg" alt=""/></div>
+				<div class="col-md-5 col-sm-5">
+					<div class="content-block animate" data-animate="fadeInLeft" style="margin-bottom: 50px;">
+						<h1>About Us</h1>
+						<p class="lead">Business Link is an exclusive community of MBA graduates from the top tier business schools.</p>
+						<p class="hidden-sm">As many of us beleive, the real value of your MBA degree lies not in the content of the education but in the people you meet, the connections you make. It is the MBA network! Business Link helps you maintain and expand this valuable network outside your school and long after your graduation, while ensuring that your network remains as exclusive as your MBA degree.</p>
+						<button class="btn btn-md btn-primary">Learn More</button>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</section>
+	
+	<!-- ==================================================
+	End Text Blcok -->
+	
+	<!-- Start Newsletter Block
+	================================================== -->
+	<section id="testimonials" class="section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div id="Carousel" class="carousel slide">
+						<ol class="carousel-indicators">
+							<li data-target="#Carousel" data-slide-to="0" class="active"></li>
+							<li data-target="#Carousel" data-slide-to="1"></li>
+							<li data-target="#Carousel" data-slide-to="2"></li>
+						</ol>
+						
+						<div class="carousel-inner">
+							<div class="item active animate" data-animate="fadeInRight">
+								<blockquote>
+									<p class="lead">Connecting with alumnae from our school will facilitate my ability to get good jobs, make deals and start succesfull ventures in the future.</p>
+									<small>Current <cite title="Source Title">MBA student</cite></small>
+								</blockquote>					            </div>
+								<div class="item animate" data-animate="fadeInRight">
+									<blockquote>
+										<p class="lead">Students at other business schools are my real network, it is more about the area you live in rather than the school you attended.</p>
+										<small>Current <cite title="Source Title">MBA student</cite></small>
+									</blockquote>
+								</div>
+								<div class="item animate" data-animate="fadeInRight">
+									<blockquote>
+										<p class="lead">Alumni from other top business schools have established themselves in various industries and might be very beneficial for recruiting or as business contacts.</p>
+										<small>Current <cite title="Source Title">MBA student</cite></small>
+									</blockquote>
+								</div>
+							</div>
+							
+							<a class="left carousel-control" href="#Carousel" data-slide="prev">
+								<span class="glyphicon glyphicon-chevron-left"></span>
+							</a>
+							<a class="right carousel-control" href="#Carousel" data-slide="next">
+								<span class="glyphicon glyphicon-chevron-right"></span>
+							</a>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</section>
+	<!-- ==================================================
+	End Slider Blcok -->
+	
+	<!-- Start Newsletter Block
+	================================================== -->
+	<section id="newsletter" class="section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<h1>B-Linked. Become an exclsuive Business Link member</h1>
+					<p class="lead">Join thousands of awesome people, there's only one thing to do. Sign up!</p>
+					<form role="form" action="signup" method="post" name="signup">
+						<div class="input-group">
+							{{form2.hidden_tag()}}
+							<input type="text" class="form-control input-lg" placeholder="Enter email"> <br>
+							<span class="input-group-btn">
+								<button class="btn btn-lg btn-default" type="button">Sign Up</button>
+							</span>
+						</div>
+					</form>
+					<form action="signup" method="post" name="signup">
+						{{form2.hidden_tag()}}
+						<p>
+							Please enter your username:<br>
+							{{form2.username(size=80)}}<br>
+							{% for error in form2.errors.username %}
+							<span style="color: red;">[{{error}}]</span>
+							{% endfor %}<br>
+						</p>
+						<p>
+							Please enter your password:<br>
+							{{form2.password(size=80)}}<br>
+							{% for error in form2.errors.password %}
+							<span style="color: red;">[{{error}}]</span>
+							{% endfor %}<br>
+						</p>
+						<p>
+							Please enter your First Name:<br>
+							{{form2.firstName(size=80)}}<br>
+							{% for error in form2.errors.firstName %}
+							<span style="color: red;">[{{error}}]</span>
+							{% endfor %}<br>
+						</p>
+						<p>
+							Please enter your Last Name:<br>
+							{{form2.lastName(size=80)}}<br>
+							{% for error in form2.errors.lastName %}
+							<span style="color: red;">[{{error}}]</span>
+							{% endfor %}<br>
+						</p>
+						<p>
+							Please enter your email:<br>
+							{{form2.email(size=80)}}<br>
+							{% for error in form2.errors.email %}
+							<span style="color: red;">[{{error}}]</span>
+							{% endfor %}<br>
+						</p>
+						<p>
+							Please enter your Location:<br>
+							{{form2.location(size=80)}}<br>
+							{% for error in form2.errors.location %}
+							<span style="color: red;">[{{error}}]</span>
+							{% endfor %}<br>
+						</p>
+						<p>
+							Please enter your school:<br>
+							{{form2.network()}}<br>
+							{% for error in form2.errors.network %}
+							<span style="color: red;">[{{error}}]</span>
+							{% endfor %}<br>
+						</p>
+						<p>
+							Please enter your MBA Class Year:<br>
+							{{form2.class_year(size=80)}}<br>
+							{% for error in form2.errors.class_year %}
+							<span style="color: red;">[{{error}}]</span>
+							{% endfor %}<br>
+						</p>
+						<p>{{form2.remember_me}} Remember Me</p>
+						<p><input type="submit" value="Sign Up"></p>
+
+					</div>
+				</div>
+			</div>
+		</section>
+	<!-- ==================================================
+	End Newsletter Blcok -->
+	
+	
+	
+	<!-- Bootstrap core JavaScript
+	================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="assets/js/jquery-1.10.2.min.js"></script>
+	<script src="assets/js/bootstrap.js"></script>
+	<script src="assets/js/waypoints.min.js"></script>
+	<script src="assets/js/jquery.scrollto.min.js"></script>
+	<script src="assets/js/jquery.localscroll.min.js"></script>
+	<script src="assets/js/jquery.prettyPhoto.js"></script>
+	<script src="assets/js/scripts.js"></script>
+	
+	
+	<!-- ********************* -->
+	<!-- Start Rocket -->
+	
 </body>
 </html>
-
