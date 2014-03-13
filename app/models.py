@@ -2,6 +2,11 @@ from app import db
 import time
 import datetime
 from sqlalchemy import desc
+from config import WHOOSH_ENABLED
+
+if WHOOSH_ENABLED:
+    import flask.ext.whooshalchemy as whooshalchemy
+    whooshalchemy.whoosh_index(app, Post)
 
 
 ### Establishes many to many relationship between user and messages
